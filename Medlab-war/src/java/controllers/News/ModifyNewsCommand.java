@@ -38,6 +38,8 @@ public class ModifyNewsCommand extends FrontCommand {
             news.setId(id);
             news.setTitle(title);
             news.setDescription(description);
+            System.out.println("vvvv="+newsDB.find(id).getViews());
+            news.setViews(newsDB.find(id).getViews());
             news.setSpeciality(new Speciality(request.getParameter("speciality")));
             news.setDate(new Date());
             newsDB.edit(news);

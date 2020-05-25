@@ -34,7 +34,10 @@ public class AddNewsCommand extends FrontCommand {
             String title = new String(request.getParameter("title").getBytes("ISO8859_1"), "UTF-8");
             String description = new String(request.getParameter("description").getBytes("ISO8859_1"), "UTF-8");
             News news = new News();
-            news.setId(newsDB.findAll().get(newsDB.count()-1).getId()+1);
+            long id = 0;
+            if (!newsDB.findAll().isEmpty()) id = newsDB.findAll().get(newsDB.count()-1).getId()+1;
+            news.setId(id);
+            news.setViews(0);
             news.setTitle(title);
             news.setDescription(description);
             news.setSpeciality(new Speciality(request.getParameter("speciality")));

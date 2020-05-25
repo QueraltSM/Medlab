@@ -51,5 +51,17 @@ public class NewsFacade extends AbstractFacade<News> {
                 .setParameter("title", "%"+title+"%")
                 .setParameter("speciality", "%"+speciality.getType()+"%")
                 .getResultList();
-    }          
+    }     
+    public int insertNewVisit(long id) {
+        News news = findNewsbyID(id).get(0);
+        return em.createQuery("UPDATE News n set n.views = :views WHERE n.id = :id")
+        .setParameter("id", id)
+        .setParameter("views", news.getViews()+1)
+        .executeUpdate();
+    }
+    
+    public List<News> orderbyViews() {
+        return em.createQuery("SELECT n FROM News n ORDER BY n.views DESC")
+        .getResultList();
+    }
 }

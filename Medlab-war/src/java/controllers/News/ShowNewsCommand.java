@@ -8,7 +8,6 @@ package controllers.News;
 import controllers.FrontCommand;
 import ejbs.Log;
 import ejbs.NewsFacade;
-import ejbs.NewsVisitorCounter;
 import entities.News;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,16 +28,10 @@ public class ShowNewsCommand extends FrontCommand {
 
     private HttpSession session;
     private NewsFacade newsDB;
-    private NewsVisitorCounter visitor;
     private Log log;
 
     public void getSortedNews() {
-        List<News> news = new ArrayList();
-        visitor.sortMap().entrySet().stream().forEach((entry) -> {
-            newsDB.findAll().stream().filter((n) -> (n.getId().equals(entry.getKey().getId()))).forEach((n) -> {
-                news.add(n);
-            });
-        });
+        List<News> news = newsDB.orderbyViews();
         if (news.isEmpty()) {
             request.setAttribute("error", "There is no most viewed news yet");
         }
@@ -59,7 +52,6 @@ public class ShowNewsCommand extends FrontCommand {
             log = (Log) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/Log!ejbs.Log");
             log.newCallEJB("ShowNewsCommand:process()");
             session = request.getSession();
-            visitor = (NewsVisitorCounter) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsVisitorCounter!ejbs.NewsVisitorCounter");
             newsDB = (NewsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsFacade!ejbs.NewsFacade");
             getAllNews();
             

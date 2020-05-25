@@ -4,7 +4,6 @@
 <%@page import="java.sql.Time"%>
 <%@page import="java.time.Instant"%>
 <%@page import="java.text.DateFormat"%>
-<%@page import="ejbs.NewsVisitorCounter"%>
 <%@page import="entities.News"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
@@ -65,8 +64,7 @@
                                         DateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                     %>
                                     <span class="post-date"><br><% out.println(f.format(d));%>
-                                        <%NewsVisitorCounter counter = (NewsVisitorCounter) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsVisitorCounter!ejbs.NewsVisitorCounter");
-                                        %><%=counter.getVisitsCount(news)%> <i class="fa fa-eye" aria-hidden="true"></i></span>
+                                        <%=news.getViews()%> <i class="fa fa-eye" aria-hidden="true"></i></span>
                                 </div>
                                 <h3 class="post-title"><a href="FrontController?command=NewsDetailsCommand&type=news&id=<% out.println(news.getId());%>"><% out.println(news.getTitle());%></a></h3>	
                             </div>

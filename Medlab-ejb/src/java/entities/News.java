@@ -28,42 +28,38 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author QSM
  */
-
-//findLikeTitle
 @Entity
 @Table(name = "NEWS")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "News.findAll", query = "SELECT n FROM News n"),
-    @NamedQuery(name="News.findLikeTitle", query="SELECT n FROM News n WHERE n.title LIKE :title"),
     @NamedQuery(name = "News.findById", query = "SELECT n FROM News n WHERE n.id = :id"),
-    @NamedQuery(name = "News.findByTitle", query = "SELECT n FROM News n WHERE n.title = :title"),
+    @NamedQuery(name = "News.findByDate", query = "SELECT n FROM News n WHERE n.date = :date"),
     @NamedQuery(name = "News.findByDescription", query = "SELECT n FROM News n WHERE n.description = :description"),
-    @NamedQuery(name = "News.findByDate", query = "SELECT n FROM News n WHERE n.date = :date")})
+    @NamedQuery(name = "News.findByTitle", query = "SELECT n FROM News n WHERE n.title = :title"),
+    @NamedQuery(name = "News.findByViews", query = "SELECT n FROM News n WHERE n.views = :views")})
 public class News implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Column(name = "DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+    @Size(max = 255)
+    @Column(name = "DESCRIPTION")
+    private String description;
+    @Size(max = 255)
     @Column(name = "TITLE")
     private String title;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 700)
-    @Column(name = "DESCRIPTION")
-    private String description;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "DATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    @Column(name = "VIEWS")
+    private int views;
     @JoinColumn(name = "SPECIALITY", referencedColumnName = "TYPE")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Speciality speciality;
 
     public News() {
@@ -73,11 +69,9 @@ public class News implements Serializable {
         this.id = id;
     }
 
-    public News(Long id, String title, String description, Date date) {
+    public News(Long id, int views) {
         this.id = id;
-        this.title = title;
-        this.description = description;
-        this.date = date;
+        this.views = views;
     }
 
     public Long getId() {
@@ -88,12 +82,12 @@ public class News implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getDescription() {
@@ -104,12 +98,20 @@ public class News implements Serializable {
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
+    public String getTitle() {
+        return title;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 
     public Speciality getSpeciality() {

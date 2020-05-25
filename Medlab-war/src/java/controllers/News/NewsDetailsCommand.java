@@ -9,7 +9,6 @@ import controllers.FrontCommand;
 import ejbs.CommentFacade;
 import ejbs.Log;
 import ejbs.NewsFacade;
-import ejbs.NewsVisitorCounter;
 import entities.Comment;
 import entities.News;
 import java.io.IOException;
@@ -30,7 +29,6 @@ public class NewsDetailsCommand extends FrontCommand {
     private HttpSession session;
     private NewsFacade newsDB;
     private CommentFacade commentsDB;
-    private NewsVisitorCounter visitor;
     private Log log;
 
     private void getAllComments() {
@@ -40,19 +38,16 @@ public class NewsDetailsCommand extends FrontCommand {
     }
 
     private void setNewVisit(News news) {
-        try {
-            visitor = (NewsVisitorCounter)InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsVisitorCounter!ejbs.NewsVisitorCounter");
-            visitor.newVisit(news);
-        } catch (NamingException ex) {
-            Logger.getLogger(NewsDetailsCommand.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        newsDB.insertNewVisit(news.getId());
     }
     
     private void getNewsDetails() {
         long id = Long.parseLong((String) request.getParameter("id"));
         News news = newsDB.find(id);
         request.setAttribute("news", news);
-        setNewVisit(news);
+        if (request.getParameter("action") == null) {
+            setNewVisit(news);
+        }
     }
 
     @Override

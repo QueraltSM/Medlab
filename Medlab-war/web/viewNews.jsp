@@ -6,7 +6,6 @@
 <%@page import="java.util.Date"%>
 <%@page import="entities.News"%>
 <%@page import="javax.naming.InitialContext"%>
-<%@page import="ejbs.NewsVisitorCounter"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -54,8 +53,8 @@
                     <div class="col-md-12">
                         <div class="main-post"  style="padding-bottom: 100px;">
                             <p class="case_description"><% out.println(news.getDescription());%></p><br><br><br>
-                            <p class="statistics"><%NewsVisitorCounter counter = (NewsVisitorCounter) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsVisitorCounter!ejbs.NewsVisitorCounter");
-                                %><%=counter.getVisitsCount(news)%>  views<br><br><br>
+                            <p class="statistics">
+                                <%=news.getViews()+1%> views<br><br><br>
                                 <% if (session.getAttribute("usertype").equals("admin")) {%>
                                 <a href="FrontController?command=DeleteNewsCommand&id=<%=news.getId()%>"><i class="fas fa-trash"></i> Delete</a>   <a href="FrontController?command=NewsDetailsCommand&action=edit&id=<%=news.getId()%>"><i class="fas fa-edit"></i> Modify</a>
                                 <%}%>
