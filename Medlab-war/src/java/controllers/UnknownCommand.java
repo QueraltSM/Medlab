@@ -5,7 +5,8 @@
  */
 package controllers;
 
-import ejbs.Log;
+import ejbs.LogFacade;
+import entities.Log;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,13 +20,20 @@ import javax.servlet.ServletException;
  * @author QSM
  */
 public class UnknownCommand extends FrontCommand {
-    private Log log;
+    private LogFacade log;
     
     @Override
     public void process() {
         try {
-            log = (Log) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/Log!ejbs.Log");
-            log.newCallEJB("UnknownCommand:process()");
+            log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
+            Log log1 = new Log();
+            long id = 1;
+            if (!log.findAll().isEmpty()) {
+               id = log.findAll().size()+1;
+            }
+            log1.setId(id);
+            log1.setEjbs("UnknownCommand:process()");
+            log.create(log1);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("unknown.jsp");
             requestDispatcher.forward(request, response);
         } catch (ServletException | IOException | NamingException ex) {

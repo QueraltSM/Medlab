@@ -6,11 +6,11 @@
 package controllers.News;
 
 import controllers.FrontCommand;
-import ejbs.Log;
+import ejbs.LogFacade;
 import ejbs.NewsFacade;
+import entities.Log;
 import entities.News;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +25,9 @@ import javax.servlet.http.HttpSession;
  * @author QSM
  */
 public class ShowNewsCommand extends FrontCommand {
-
     private HttpSession session;
     private NewsFacade newsDB;
-    private Log log;
+    private LogFacade log;
 
     public void getSortedNews() {
         List<News> news = newsDB.orderbyViews();
@@ -49,8 +48,15 @@ public class ShowNewsCommand extends FrontCommand {
     @Override
     public void process() {
         try {
-            log = (Log) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/Log!ejbs.Log");
-            log.newCallEJB("ShowNewsCommand:process()");
+            log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
+            Log log1 = new Log();
+            long id = 1;
+            if (!log.findAll().isEmpty()) {
+               id = log.findAll().size()+1;
+            }
+            log1.setId(id);
+            log1.setEjbs("ShowNewsCommand:process()");
+            log.create(log1);
             session = request.getSession();
             newsDB = (NewsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsFacade!ejbs.NewsFacade");
             getAllNews();

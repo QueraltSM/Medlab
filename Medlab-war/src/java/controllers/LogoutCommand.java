@@ -5,7 +5,8 @@
  */
 package controllers;
 
-import ejbs.Log;
+import ejbs.LogFacade;
+import entities.Log;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,13 +23,20 @@ import javax.servlet.http.HttpSession;
 public class LogoutCommand extends FrontCommand {
 
     private static HttpSession session;
-    private Log log;
+    private LogFacade log;
 
     @Override
     public void process() {
         try {
-            log = (Log) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/Log!ejbs.Log");
-            log.newCallEJB("LogoutCommand:process()");
+            log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
+            Log log1 = new Log();
+            long id = 1;
+            if (!log.findAll().isEmpty()) {
+               id = log.findAll().size()+1;
+            }
+            log1.setId(id);
+            log1.setEjbs("LogoutCommand:process()");
+            log.create(log1);
             session = request.getSession(true);
             session.setAttribute("logged", "false");
             session.setAttribute("fullname", null);

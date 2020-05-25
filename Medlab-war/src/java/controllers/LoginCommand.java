@@ -6,11 +6,14 @@
 package controllers;
 
 import controllers.News.ShowNewsCommand;
-import ejbs.Log;
-import ejbs.LoginStats;
+import ejbs.LogFacade;
+import ejbs.LoginstatsFacade;
 import ejbs.UsersFacade;
+import entities.Log;
+import entities.Loginstats;
 import entities.Users;
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -27,8 +30,8 @@ public class LoginCommand extends FrontCommand {
 
     private static HttpSession session;
     private UsersFacade usersDB;
-    private Log log;
-    private LoginStats login_stats;
+    private LogFacade log;
+    private LoginstatsFacade login_stats;
 
     @SuppressWarnings("unchecked")
     private boolean userExists() {
@@ -57,13 +60,28 @@ public class LoginCommand extends FrontCommand {
     @Override
     public void process() {
         try {
-            log = (Log) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/Log!ejbs.Log");
-            log.newCallEJB("LoginCommand:process()");
+            log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
+            login_stats = (LoginstatsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LoginstatsFacade!ejbs.LoginstatsFacade");
+            Log log1 = new Log();
+            long id = 1;
+            if (!log.findAll().isEmpty()) {
+               id = log.findAll().size()+1;
+            }
+            log1.setId(id);
+            log1.setEjbs("LoginCommand:process()");
+            log.create(log1);
             session = request.getSession(true);
             usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
             if (userExists()) {
-                login_stats = (LoginStats) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LoginStats!ejbs.LoginStats");
-                login_stats.newLogin(request.getParameter("email"));
+                Loginstats loginstats1 = new Loginstats();
+                long id1 = 0;
+                if (!login_stats.findAll().isEmpty()) {
+                    id1 = login_stats.findAll().size()+1;
+                }
+                loginstats1.setId(id1);
+                loginstats1.setEmail(request.getParameter("email"));
+                loginstats1.setDate(new Date());
+                login_stats.create(loginstats1);
                 session.setAttribute("logged", "true");
                 session.setAttribute("email", request.getParameter("email"));
                 ShowNewsCommand command = new ShowNewsCommand();

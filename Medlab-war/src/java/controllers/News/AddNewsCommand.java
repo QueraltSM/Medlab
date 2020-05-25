@@ -6,8 +6,9 @@
 package controllers.News;
 
 import controllers.FrontCommand;
-import ejbs.Log;
+import ejbs.LogFacade;
 import ejbs.NewsFacade;
+import entities.Log;
 import entities.News;
 import entities.Speciality;
 import java.io.IOException;
@@ -25,8 +26,7 @@ import javax.servlet.ServletException;
  * @author QSM
  */
 public class AddNewsCommand extends FrontCommand {
-
-    private Log log;
+    private LogFacade log;
     private NewsFacade newsDB;
     
     private void createNews() {
@@ -51,8 +51,15 @@ public class AddNewsCommand extends FrontCommand {
     @Override
     public void process() {
         try {
-            log = (Log) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/Log!ejbs.Log");
-            log.newCallEJB("AddNewsCommand:process()");
+            log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
+            Log log1 = new Log();
+            long id = 1;
+            if (!log.findAll().isEmpty()) {
+               id = log.findAll().size()+1;
+            }
+            log1.setId(id);
+            log1.setEjbs("AddNewsCommand:process()");
+            log.create(log1);
             newsDB = (NewsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsFacade!ejbs.NewsFacade");
             createNews();
             ShowNewsCommand command = new ShowNewsCommand();

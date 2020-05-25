@@ -1,7 +1,8 @@
 package controllers;
 
-import ejbs.Log;
+import ejbs.LogFacade;
 import ejbs.UsersFacade;
+import entities.Log;
 import entities.Users;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -17,7 +18,7 @@ import javax.servlet.ServletException;
  * @author QSM
  */
 public class SignupCommand extends FrontCommand {
-    private Log log;
+    private LogFacade log;
     private UsersFacade usersDB;
 
     private void registerUser() {
@@ -55,8 +56,15 @@ public class SignupCommand extends FrontCommand {
     @Override
     public void process() {
         try {
-            log = (Log) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/Log!ejbs.Log");
-            log.newCallEJB("SignupCommand:process()");
+            log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
+            Log log1 = new Log();
+            long id = 1;
+            if (!log.findAll().isEmpty()) {
+               id = log.findAll().size()+1;
+            }
+            log1.setId(id);
+            log1.setEjbs("SignupCommand:process()");
+            log.create(log1);
             usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
             String destination = "login.jsp";
             if (userExists()) {

@@ -7,9 +7,10 @@ package controllers.News;
 
 import controllers.FrontCommand;
 import ejbs.CommentFacade;
-import ejbs.Log;
+import ejbs.LogFacade;
 import ejbs.NewsFacade;
 import entities.Comment;
+import entities.Log;
 import entities.News;
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +30,7 @@ public class NewsDetailsCommand extends FrontCommand {
     private HttpSession session;
     private NewsFacade newsDB;
     private CommentFacade commentsDB;
-    private Log log;
+    private LogFacade log;
 
     private void getAllComments() {
         long id = Long.parseLong((String) request.getParameter("id"));
@@ -37,7 +38,7 @@ public class NewsDetailsCommand extends FrontCommand {
         request.setAttribute("comments", comments);
     }
 
-    private void setNewVisit(News news) {
+    private void setNewsVisit(News news) {
         newsDB.insertNewVisit(news.getId());
     }
     
@@ -46,15 +47,22 @@ public class NewsDetailsCommand extends FrontCommand {
         News news = newsDB.find(id);
         request.setAttribute("news", news);
         if (request.getParameter("action") == null) {
-            setNewVisit(news);
+            setNewsVisit(news);
         }
     }
 
     @Override
     public void process() {
         try {
-            log = (Log) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/Log!ejbs.Log");
-            log.newCallEJB("NewsDetailsCommand:process()");
+            log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
+            Log log1 = new Log();
+            long id = 1;
+            if (!log.findAll().isEmpty()) {
+               id = log.findAll().size()+1;
+            }
+            log1.setId(id);
+            log1.setEjbs("NewsDetailsCommand:process()");
+            log.create(log1);
             session = request.getSession();
             newsDB = (NewsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsFacade!ejbs.NewsFacade");
             commentsDB = (CommentFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CommentFacade!ejbs.CommentFacade");

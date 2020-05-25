@@ -6,8 +6,9 @@
 package controllers.News;
 
 import controllers.FrontCommand;
-import ejbs.Log;
+import ejbs.LogFacade;
 import ejbs.NewsFacade;
+import entities.Log;
 import entities.News;
 import entities.Speciality;
 import java.io.IOException;
@@ -26,7 +27,7 @@ import javax.servlet.ServletException;
  */
 public class SearchNewsCommand extends FrontCommand {
     private NewsFacade newsDB;
-    private Log log;
+    private LogFacade log;
 
     private void getNewsMatched() {
         try {
@@ -58,8 +59,15 @@ public class SearchNewsCommand extends FrontCommand {
     @Override
     public void process() {
         try {
-            log = (Log) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/Log!ejbs.Log");
-            log.newCallEJB("SearchNewsCommand:process()");
+            log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
+            Log log1 = new Log();
+            long id = 1;
+            if (!log.findAll().isEmpty()) {
+               id = log.findAll().size()+1;
+            }
+            log1.setId(id);
+            log1.setEjbs("SearchNewsCommand:process()");
+            log.create(log1);
             newsDB = (NewsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsFacade!ejbs.NewsFacade");
             getNewsMatched();
             try {
