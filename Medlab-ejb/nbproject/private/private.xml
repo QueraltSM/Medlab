@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/QSM/NetBeansProjects/Medlab/Medlab-ejb/src/java/entities/Clinicalcases.java</file>
-            <file>file:/Users/QSM/NetBeansProjects/Medlab/Medlab-ejb/src/java/ejbs/ClinicalcasesFacade.java</file>
+            <file>file:/Users/QSM/NetBeansProjects/Medlab/Medlab-ejb/src/java/entities/Users.java</file>
+            <file>file:/Users/QSM/NetBeansProjects/Medlab/Medlab-ejb/src/conf/persistence.xml</file>
+            <file>file:/Users/QSM/NetBeansProjects/Medlab/Medlab-ejb/src/java/ejbs/UsersFacade.java</file>
         </group>
     </open-files>
 </project-private>

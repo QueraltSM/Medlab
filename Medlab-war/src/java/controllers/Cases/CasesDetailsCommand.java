@@ -72,7 +72,7 @@ public class CasesDetailsCommand extends FrontCommand {
             try {
                 String dst = "viewCases.jsp";
                 if (request.getParameter("action") != null && request.getParameter("action").equals("edit")) {
-                   dst = "editCases.jsp";
+                   dst = "editCase.jsp";
                 }
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher(dst);
                 requestDispatcher.forward(request, response);

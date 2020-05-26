@@ -52,7 +52,7 @@ public class LoginCommand extends FrontCommand {
         }
         if (exists) {
             session.setAttribute("usertype", user.getType());
-            session.setAttribute("fullname", user.getName());
+            session.setAttribute("fullname", user.getFullname().toString());
         }
         return exists;
     }

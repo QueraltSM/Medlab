@@ -39,6 +39,11 @@ public class UsersFacade extends AbstractFacade<Users> {
                 .setParameter("email", email).getResultList();
     }
     
+    public void insertUser(Users user) {
+        setLogTrace("UsersFacade::insertUser");
+        em.persist(user);
+    }
+    
     public void setLogTrace(String ejbs) {
         Log log1 = new Log();
         long id = 1;

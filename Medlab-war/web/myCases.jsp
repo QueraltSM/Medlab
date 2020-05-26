@@ -34,12 +34,6 @@
                             <% if (request.getAttribute("error") == null) { %>
                             <h2 id="title_cases">All cases</h2>
                             <% } %>
-                            <div class="pull-right">
-                                <select onchange='sortList("Cases", "cases")' id="sort_type_cases" class="select_speciality">
-                                    <option value="recent">Sort by most recent</option>
-                                    <option value="viewed">Sort by most viewed</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
                     <%

@@ -25,7 +25,7 @@ public class DeleteCasesCommand extends FrontCommand {
     private LogFacade log;
     private ClinicalcasesFacade casesDB;
 
-    private void deleteClinicalcases() {
+    private void deleteCase() {
         long id = Long.parseLong((String) request.getParameter("id"));
         casesDB.deleteCase(id);
     }
@@ -43,7 +43,7 @@ public class DeleteCasesCommand extends FrontCommand {
             log1.setEjbs("DeleteCasesCommand:process()");
             log.create(log1);
             casesDB = (ClinicalcasesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ClinicalcasesFacade!ejbs.ClinicalcasesFacade");
-            deleteClinicalcases();
+            deleteCase();
             ShowCasesCommand command = new ShowCasesCommand();
             command.init(context, request, response);
             command.process();

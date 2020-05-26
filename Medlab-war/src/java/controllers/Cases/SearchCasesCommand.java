@@ -29,7 +29,7 @@ public class SearchCasesCommand extends FrontCommand {
     private ClinicalcasesFacade casesDB;
     private LogFacade log;
 
-    private void getClinicalcasesMatched() {
+    private void getCasesMatched() {
         try {
             List<Clinicalcases> cases;
             String title;
@@ -69,7 +69,7 @@ public class SearchCasesCommand extends FrontCommand {
             log1.setEjbs("SearchCasesCommand:process()");
             log.create(log1);
             casesDB = (ClinicalcasesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ClinicalcasesFacade!ejbs.ClinicalcasesFacade");
-            getClinicalcasesMatched();
+            getCasesMatched();
             try {
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("cases.jsp");
                 requestDispatcher.forward(request, response);

@@ -6,14 +6,10 @@
 package controllers.Cases;
 
 import controllers.FrontCommand;
-import ejbs.CommentFacade;
 import ejbs.LogFacade;
 import ejbs.ClinicalcasesFacade;
-import entities.Comment;
 import entities.Log;
-import entities.Clinicalcases;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;

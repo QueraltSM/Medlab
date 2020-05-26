@@ -2,6 +2,7 @@ package controllers;
 
 import ejbs.LogFacade;
 import ejbs.UsersFacade;
+import entities.Fullname;
 import entities.Log;
 import entities.Users;
 import java.io.IOException;
@@ -23,16 +24,20 @@ public class SignupCommand extends FrontCommand {
 
     private void registerUser() {
         try {
-            String name = new String(request.getParameter("fullname").getBytes("ISO8859_1"), "UTF-8");
+            String first_name = new String(request.getParameter("first_name").getBytes("ISO8859_1"), "UTF-8");
+            String last_name = new String(request.getParameter("last_name").getBytes("ISO8859_1"), "UTF-8");
             String email = new String(request.getParameter("email").getBytes("ISO8859_1"), "UTF-8");
             String password = new String(request.getParameter("password").getBytes("ISO8859_1"), "UTF-8");
             String type = "doctor";
+            Fullname fullname = new Fullname();
+            fullname.setFirstName(first_name);
+            fullname.setLastName(last_name);
             Users user = new Users(Long.parseLong(request.getParameter("license_number")));
-            user.setName(name);
+            user.setFullname(fullname);
             user.setEmail(email);
             user.setPassword(password);
             user.setType(type);
-            usersDB.create(user);
+            usersDB.insertUser(user);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(SignupCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
