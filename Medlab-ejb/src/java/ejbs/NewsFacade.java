@@ -9,11 +9,8 @@ import entities.Log;
 import entities.News;
 import entities.Speciality;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -25,7 +22,8 @@ import javax.persistence.PersistenceContext;
 public class NewsFacade extends AbstractFacade<News> {
     @PersistenceContext(unitName = "Medlab-ejbPU")
     private EntityManager em;
-    private LogFacade log;
+    @EJB
+    LogFacade log;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -41,13 +39,13 @@ public class NewsFacade extends AbstractFacade<News> {
         return em.createNamedQuery("News.findById")
                 .setParameter("id", id).getResultList();
     }
-    
+   
     public List<News> findNewsbyTitle(String title) {
         setLogTrace("NewsFacade::findNewsbyTitle");
         return em.createNamedQuery("News.findLikeTitle")
                 .setParameter("title", "%"+ title+ "%").getResultList();
     }
-    
+        
     public List<News> findNewsbySpeciality(Speciality speciality) {
         setLogTrace("NewsFacade::findNewsbySpeciality");
         return em.createQuery("SELECT n FROM News n WHERE n.speciality.type LIKE :speciality")
@@ -61,13 +59,13 @@ public class NewsFacade extends AbstractFacade<News> {
                 .setParameter("title", "%"+title+"%")
                 .setParameter("speciality", "%"+speciality.getType()+"%")
                 .getResultList();
-    }     
-    public int insertNewVisit(long id) {
+    } 
+            
+    public void updateVisits(long id) {
         setLogTrace("NewsFacade::orderbyViews");
-        News news = findNewsbyID(id).get(0);
-        return em.createQuery("UPDATE News n set n.views = :views WHERE n.id = :id")
+        em.createQuery("UPDATE News n set n.views = :views WHERE n.id = :id")
         .setParameter("id", id)
-        .setParameter("views", news.getViews()+1)
+        .setParameter("views", findNewsbyID(id).get(0).getViews()+1)
         .executeUpdate();
     }
     
@@ -77,18 +75,45 @@ public class NewsFacade extends AbstractFacade<News> {
         .getResultList();
     }
     
+    public void insertNews(News news) {
+        setLogTrace("NewsFacade::insertNews");
+        em.createNativeQuery("INSERT INTO NEWS (id, title, description, date, speciality, views) VALUES (?,?,?,?,?,?)")
+        .setParameter(1, news.getId())
+        .setParameter(2, news.getTitle())
+        .setParameter(3, news.getDescription())
+        .setParameter(4, news.getDate())
+        .setParameter(5, news.getSpeciality().getType())
+        .setParameter(6, news.getViews())
+        .executeUpdate();
+    }
+    
+    public void deleteNews(long id) {
+        setLogTrace("NewsFacade::deleteNews");
+        em.createQuery("DELETE FROM News n WHERE n.id = :id")
+        .setParameter("id", id)
+        .executeUpdate();   
+    }
+    
+    public void updateNews(News news) {
+        setLogTrace("NewsFacade::updateNews");
+        em.createQuery("UPDATE News n set n.title = :title, n.description = :description, n.date = :date, n.speciality = :speciality, n.views = :views")
+        .setParameter("date", news.getDate())
+        .setParameter("description", news.getDescription())
+        .setParameter("title", news.getTitle())
+        .setParameter("speciality", news.getSpeciality())
+        .setParameter("views", news.getViews())
+        .executeUpdate();
+    }
+       
     public void setLogTrace(String ejbs) {
-        try {
-            log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
-            Log log1 = new Log();
-            long id = 1;
-            if (!log.findAll().isEmpty()) {
-                id = id+1;
-            }
-            log1.setId(id);
-            log1.setEjbs(ejbs);
-        } catch (NamingException ex) {
-            Logger.getLogger(UsersFacade.class.getName()).log(Level.SEVERE, null, ex);
+        System.out.println("setLogTrace::ejbs = "+ ejbs);
+        Log log1 = new Log();
+        long id = 1;
+        if (!log.findAll().isEmpty()) {
+            id = log.findAll().size()+1;
         }
+        log1.setId(id);
+        log1.setEjbs(ejbs);
+        log.create(log1);
     }
 }

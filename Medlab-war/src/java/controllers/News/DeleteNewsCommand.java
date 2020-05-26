@@ -28,8 +28,7 @@ public class DeleteNewsCommand extends FrontCommand {
 
     private void deleteNews() {
         long id = Long.parseLong((String) request.getParameter("id"));
-        News news = newsDB.find(id);
-        newsDB.remove(news);
+        newsDB.deleteNews(id);
     }
 
     @Override

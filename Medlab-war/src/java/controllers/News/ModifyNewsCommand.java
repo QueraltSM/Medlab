@@ -42,7 +42,7 @@ public class ModifyNewsCommand extends FrontCommand {
             news.setViews(newsDB.find(id).getViews());
             news.setSpeciality(new Speciality(request.getParameter("speciality")));
             news.setDate(new Date());
-            newsDB.edit(news);
+            newsDB.updateNews(news);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(AddNewsCommand.class.getName()).log(Level.SEVERE, null, ex);
         }

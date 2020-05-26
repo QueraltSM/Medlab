@@ -39,7 +39,7 @@ public class NewsDetailsCommand extends FrontCommand {
     }
 
     private void setNewsVisit(News news) {
-        newsDB.insertNewVisit(news.getId());
+        newsDB.updateVisits(news.getId());
     }
     
     private void getNewsDetails() {

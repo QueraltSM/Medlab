@@ -42,7 +42,7 @@ public class AddNewsCommand extends FrontCommand {
             news.setDescription(description);
             news.setSpeciality(new Speciality(request.getParameter("speciality")));
             news.setDate(new Date());
-            newsDB.create(news);
+            newsDB.insertNews(news);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(AddNewsCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
