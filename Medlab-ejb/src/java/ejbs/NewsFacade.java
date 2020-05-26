@@ -62,7 +62,7 @@ public class NewsFacade extends AbstractFacade<News> {
     } 
             
     public void updateVisits(long id) {
-        setLogTrace("NewsFacade::orderbyViews");
+        setLogTrace("NewsFacade::updateVisits");
         em.createQuery("UPDATE News n set n.views = :views WHERE n.id = :id")
         .setParameter("id", id)
         .setParameter("views", findNewsbyID(id).get(0).getViews()+1)

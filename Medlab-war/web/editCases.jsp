@@ -1,11 +1,11 @@
-<%@page import="entities.News"%>
+<%@page import="entities.Clinicalcases"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>Medlab | Edit news</title>
+    <title>Medlab | Edit case</title>
     <link rel="stylesheet" type="text/css" href="css/menu.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/form.css">
@@ -14,22 +14,38 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="icon" href="Images/icon.jpg">
 </head>
-<%News news = (News) request.getAttribute("news");%>
-<body onload='setSpeciality("<%=news.getSpeciality().getType()%>")'>
+<%Clinicalcases clinical_case = (Clinicalcases) request.getAttribute("cases");%>
+<body onload='setSpeciality("<%=clinical_case.getSpeciality().getType()%>")'>
     <jsp:include page="header.jsp" /> 
     <div class ="header">
-        <center><p class="header_title">Edit news</p></center>
+        <center><p class="header_title">Edit case</p></center>
     </div>
     <div class ="patient_data">
       <form action="FrontController" class="signup-form">
       <div class="form-body">
           <div class="form-group">
           <label for="title" class="label-title">Title</label>
-          <input type="text" id="title" name="title" class="form-input" value="<%=news.getTitle()%>" required>
+          <input type="text" id="title" name="title" class="form-input" value="<%=clinical_case.getTitle()%>" required>
         </div>
           <div class="form-group">
           <label for="description" class="label-title">Description</label>
-          <textarea class="form-input" id="description" name="description" rows="10" cols="50" style="height:auto" required><%=news.getDescription()%></textarea>
+          <textarea class="form-input" id="description" name="description" rows="10" cols="50" style="height:auto" required><%=clinical_case.getDescription()%></textarea>
+        </div>
+        <div class="form-group">
+          <label for="description" class="label-title">Description</label>
+          <textarea class="form-input" id="description" name="description" rows="10" cols="50" style="height:auto" required><%=clinical_case.getDescription()%></textarea>
+        </div>
+                  <div class="form-group">
+          <label for="history" class="label-title">History</label>
+          <textarea class="form-input" id="history" name="history" rows="4" cols="50" style="height:auto" required><%=clinical_case.getHistory()%></textarea>
+        </div>
+        <div class="form-group">
+          <label for="examination" class="label-title">Examination</label>
+          <textarea class="form-input" id="examination" name="examination" rows="4" cols="50" style="height:auto" required><%=clinical_case.getExamination()%></textarea>
+        </div>
+        <div class="form-group">
+          <label for="questions" class="label-title">Questions</label>
+          <textarea class="form-input" id="questions" name="questions" rows="4" cols="50" style="height:auto" required><%=clinical_case.getQuestions()%></textarea>
         </div>
         <div class="horizontal-group">
             <div class="form-group left">
@@ -58,8 +74,8 @@
           </div>
         </div>
         <div class="form-footer">
-            <input name="command" type="hidden" value="ModifyNewsCommand">
-            <input name="id" type="hidden" value="<%=news.getId()%>">
+            <input name="command" type="hidden" value="ModifyCasesCommand">
+            <input name="id" type="hidden" value="<%=clinical_case.getId()%>">
             <button class="btn">Update</button>			
         </div>
         </div> 

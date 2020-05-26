@@ -1,11 +1,10 @@
-<%@page import="entities.News"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>Medlab | Edit news</title>
+    <title>Medlab | Create case</title>
     <link rel="stylesheet" type="text/css" href="css/menu.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/form.css">
@@ -14,27 +13,38 @@
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="icon" href="Images/icon.jpg">
 </head>
-<%News news = (News) request.getAttribute("news");%>
-<body onload='setSpeciality("<%=news.getSpeciality().getType()%>")'>
+<body>
     <jsp:include page="header.jsp" /> 
     <div class ="header">
-        <center><p class="header_title">Edit news</p></center>
+        <center><p class="header_title">Create case</p></center>
     </div>
     <div class ="patient_data">
       <form action="FrontController" class="signup-form">
       <div class="form-body">
           <div class="form-group">
           <label for="title" class="label-title">Title</label>
-          <input type="text" id="title" name="title" class="form-input" value="<%=news.getTitle()%>" required>
+          <input type="text" id="title" name="title" class="form-input" required>
         </div>
           <div class="form-group">
           <label for="description" class="label-title">Description</label>
-          <textarea class="form-input" id="description" name="description" rows="10" cols="50" style="height:auto" required><%=news.getDescription()%></textarea>
+          <textarea class="form-input" id="description" name="description" rows="4" cols="50" style="height:auto" required></textarea>
+        </div>
+          <div class="form-group">
+          <label for="history" class="label-title">History</label>
+          <textarea class="form-input" id="history" name="history" rows="4" cols="50" style="height:auto" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="examination" class="label-title">Examination</label>
+          <textarea class="form-input" id="examination" name="examination" rows="4" cols="50" style="height:auto" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="questions" class="label-title">Questions</label>
+          <textarea class="form-input" id="questions" name="questions" rows="4" cols="50" style="height:auto" required></textarea>
         </div>
         <div class="horizontal-group">
             <div class="form-group left">
             <label class="label-title">Speciality</label>
-            <select class="form-input" name="speciality" id="speciality">
+            <select class="form-input" name="speciality">
                       <option value="Allergy_and_Inmunology">Allergy & Inmunology</option>
                       <option value="Anesthesiology">Anesthesiology</option>
                       <option value="Dermatology">Dermatology</option>
@@ -58,9 +68,8 @@
           </div>
         </div>
         <div class="form-footer">
-            <input name="command" type="hidden" value="ModifyNewsCommand">
-            <input name="id" type="hidden" value="<%=news.getId()%>">
-            <button class="btn">Update</button>			
+            <input name="command" type="hidden" value="AddCasesCommand">
+            <button class="btn">Share</button>			
         </div>
         </div> 
     </form>

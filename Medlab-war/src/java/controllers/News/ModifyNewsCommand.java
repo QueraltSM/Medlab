@@ -44,7 +44,7 @@ public class ModifyNewsCommand extends FrontCommand {
             news.setDate(new Date());
             newsDB.updateNews(news);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(AddNewsCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModifyNewsCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
