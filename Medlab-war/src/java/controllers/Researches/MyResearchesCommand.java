@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers.Discussions;
+package controllers.Researches;
 
 import controllers.FrontCommand;
 import ejbs.LogFacade;
-import ejbs.DiscussionsFacade;
+import ejbs.ResearchesFacade;
 import entities.Log;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -16,18 +16,19 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author QSM
  */
-public class DeleteDiscussionsCommand extends FrontCommand {
+public class MyResearchesCommand extends FrontCommand {
+    private HttpSession session;
+    private ResearchesFacade researchesDB;
     private LogFacade log;
-    private DiscussionsFacade discussionsDB;
-
-    private void deleteDiscussions() {
-        long id = Long.parseLong((String) request.getParameter("id"));
-        discussionsDB.deleteDiscussion(id);
+    
+    private void getUserResearches() {
+        request.setAttribute("researches", researchesDB.findResearchesbyAuthor((String) session.getAttribute("email")));
     }
 
     @Override
@@ -40,22 +41,19 @@ public class DeleteDiscussionsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
-            log1.setEjbs("DeleteDiscussionsCommand:process()");
+            log1.setEjbs("MyResearchesCommand:process()");
             log.create(log1);
-            discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");
-            deleteDiscussions();
-            ShowDiscussionsCommand command = new ShowDiscussionsCommand();
-            command.init(context, request, response);
-            command.process();
+            session = request.getSession(true);
+            researchesDB = (ResearchesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ResearchesFacade!ejbs.ResearchesFacade");
+            getUserResearches();
             try {
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewDiscussions.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("myResearches.jsp");
                 requestDispatcher.forward(request, response);
             } catch (ServletException | IOException ex) {
-                Logger.getLogger(DeleteDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MyResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NamingException ex) {
-            Logger.getLogger(DeleteDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MyResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }

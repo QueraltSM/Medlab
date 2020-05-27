@@ -31,7 +31,7 @@ public class AddCasesCommand extends FrontCommand {
     private ClinicalcasesFacade casesDB;
     private HttpSession session;
     
-    private void createCases() {
+    private void createCase() {
         try {
             String title = new String(request.getParameter("title").getBytes("ISO8859_1"), "UTF-8");
             String description = new String(request.getParameter("description").getBytes("ISO8859_1"), "UTF-8");
@@ -71,7 +71,7 @@ public class AddCasesCommand extends FrontCommand {
             log1.setEjbs("AddCasesCommand:process()");
             log.create(log1);
             casesDB = (ClinicalcasesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ClinicalcasesFacade!ejbs.ClinicalcasesFacade");
-            createCases();
+            createCase();
             ShowCasesCommand command = new ShowCasesCommand();
             command.init(context, request, response);
             command.process();

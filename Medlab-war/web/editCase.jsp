@@ -32,10 +32,6 @@
           <textarea class="form-input" id="description" name="description" rows="10" cols="50" style="height:auto" required><%=clinical_case.getDescription()%></textarea>
         </div>
         <div class="form-group">
-          <label for="description" class="label-title">Description</label>
-          <textarea class="form-input" id="description" name="description" rows="10" cols="50" style="height:auto" required><%=clinical_case.getDescription()%></textarea>
-        </div>
-                  <div class="form-group">
           <label for="history" class="label-title">History</label>
           <textarea class="form-input" id="history" name="history" rows="4" cols="50" style="height:auto" required><%=clinical_case.getHistory()%></textarea>
         </div>
@@ -61,7 +57,6 @@
                       <option value="Medical_Genetics">Medical Genetics</option>
                       <option value="Neurology">Neurology</option>
                       <option value="Nuclear_Medicine">Nuclear Medicine</option>
-                      <option value="Obstretics_and_Gynecology">Obstretics and Gynecology</option>
                       <option value="Opthalmology">Opthalmology</option>
                       <option value="Pathology">Pathology</option>
                       <option value="Pediatrics">Pediatrics</option>

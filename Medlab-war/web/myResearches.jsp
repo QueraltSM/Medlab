@@ -1,4 +1,4 @@
-<%@page import="entities.Discussions"%>
+<%@page import="entities.Researches"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.sql.Time"%>
@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <title>Medlab | My discussions</title>
+        <title>Medlab | My researches</title>
         <link rel="stylesheet" type="text/css" href="css/menu.css">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <script src='https://kit.fontawesome.com/a076d05399.js'></script>
@@ -23,7 +23,7 @@
         <link type="text/css" rel="stylesheet" href="css/style.css"/>
         <link rel="icon" href="Images/icon.jpg"> 
     </head>
-    <body onload='loadLastSortSelection("discussions")'>
+    <body onload='loadLastSortSelection("researches")'>
         <jsp:include page="header.jsp" />   
         <div class="section">
             <div class="container">
@@ -31,30 +31,30 @@
                     <div class="col-md-12">
                         <div class="section-title" style="padding-bottom: 80px;">
                             <% if (request.getAttribute("error") == null) { %>
-                            <h2 id="title_discussions">All discussions</h2>
+                            <h2 id="title_researches">All researches</h2>
                             <% } %>
                         </div>
                     </div>
                     <%
                         int count = 2;
                         int i = 0;
-                        List<Discussions> all_discussions = (List<Discussions>) request.getAttribute("discussions");
-                        if (!all_discussions.isEmpty()) {
-                            for (Discussions discussions : all_discussions) {
+                        List<Researches> all_researches = (List<Researches>) request.getAttribute("researches");
+                        if (!all_researches.isEmpty()) {
+                            for (Researches researches : all_researches) {
                     %>
                     <div class="col-md-4">
                         <div class="post">
                             <a class="post-img"></a>
                             <div class="post-body">
                                 <div class="post-meta">
-                                    <a class="post-category cat"><% out.println(discussions.getSpeciality().getType().toString().replaceAll("_", " "));%></a>
-                                    <%  Date d = new Date(discussions.getDate().getTime());
+                                    <a class="post-category cat"><% out.println(researches.getSpeciality().getType().toString().replaceAll("_", " "));%></a>
+                                    <%  Date d = new Date(researches.getDate().getTime());
                                         DateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                     %>
                                     <span class="post-date"><br><% out.println(f.format(d));%>
-                                        <%=discussions.getViews()%> <i class="fa fa-eye" aria-hidden="true"></i></span>
+                                        <%=researches.getViews()%> <i class="fa fa-eye" aria-hidden="true"></i></span>
                                 </div>
-                                <h3 class="post-title"><a href="FrontController?command=DiscussionsDetailsCommand&type=discussions&id=<% out.println(discussions.getId());%>"><% out.println(discussions.getTitle());%></a></h3>	
+                                <h3 class="post-title"><a href="FrontController?command=ResearchesDetailsCommand&type=researches&id=<% out.println(researches.getId());%>"><% out.println(researches.getTitle());%></a></h3>	
                             </div>
                         </div>
                     </div>       

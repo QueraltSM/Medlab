@@ -54,7 +54,10 @@ public class FrontController extends HttpServlet {
             command += "Cases.";
         } else if (((String)req.getParameter("command")).contains("Discussions")) {
             command += "Discussions.";
+        } else if (((String)req.getParameter("command")).contains("Researches")) {
+            command += "Researches.";
         }
+        
         command += (String)req.getParameter("command");
         try {
             if (command.contains("LoginCommand") || command.contains("SignupCommand") || (req.getSession().getAttribute("logged") != null && req.getSession().getAttribute("logged").equals("true"))) {

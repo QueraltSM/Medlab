@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers.Cases;
+package controllers.Researches;
 
 import controllers.FrontCommand;
 import ejbs.LogFacade;
-import ejbs.ClinicalcasesFacade;
+import ejbs.ResearchesFacade;
 import entities.Log;
-import entities.Clinicalcases;
+import entities.Researches;
 import entities.Speciality;
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -26,31 +27,27 @@ import javax.servlet.http.HttpSession;
  *
  * @author QSM
  */
-public class ModifyCasesCommand extends FrontCommand {
+public class ModifyResearchesCommand extends FrontCommand {
     private LogFacade log;
-    private ClinicalcasesFacade casesDB;
+    private ResearchesFacade researchesDB;
     private HttpSession session;
     
     private void modifyCase() {
         try {
             String title = new String(request.getParameter("title").getBytes("ISO8859_1"), "UTF-8");
             String description = new String(request.getParameter("description").getBytes("ISO8859_1"), "UTF-8");
-            String examination = new String(request.getParameter("examination").getBytes("ISO8859_1"), "UTF-8");
-            String questions = new String(request.getParameter("questions").getBytes("ISO8859_1"), "UTF-8");
-            String history = new String(request.getParameter("history").getBytes("ISO8859_1"), "UTF-8");
+            String conclusions = new String(request.getParameter("conclusions").getBytes("ISO8859_1"), "UTF-8");
             long id = Long.parseLong((String) request.getParameter("id"));
-            Clinicalcases cases = casesDB.find(id);
-            cases.setTitle(title);
-            cases.setDescription(description);
-            cases.setSpeciality(new Speciality(request.getParameter("speciality")));
-            cases.setDate(new Date());
-            cases.setAuthor((String)session.getAttribute("email"));
-            cases.setExamination(examination);
-            cases.setQuestions(questions);
-            cases.setHistory(history);
-            casesDB.updateCase(cases);
+            Researches researches = researchesDB.find(id);
+            researches.setTitle(title);
+            researches.setDescription(description);
+            researches.setSpeciality(new Speciality(request.getParameter("speciality")));
+            researches.setDate(new Date());
+            researches.setAuthor((String)session.getAttribute("email"));
+            researches.setConclusions(conclusions);
+            researchesDB.updateResearch(researches);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ModifyCasesCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModifyResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -65,21 +62,21 @@ public class ModifyCasesCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
-            log1.setEjbs("ModifyCasesCommand:process()");
+            log1.setEjbs("ModifyResearchesCommand:process()");
             log.create(log1);
-            casesDB = (ClinicalcasesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ClinicalcasesFacade!ejbs.ClinicalcasesFacade");
+            researchesDB = (ResearchesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ResearchesFacade!ejbs.ResearchesFacade");
             modifyCase();
-            CasesDetailsCommand command = new CasesDetailsCommand();
+            ResearchesDetailsCommand command = new ResearchesDetailsCommand();
             command.init(context, request, response);
             command.process();
             try {
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewCases.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewResearches.jsp");
                 requestDispatcher.forward(request, response);
             } catch (ServletException | IOException ex) {
-                Logger.getLogger(ModifyCasesCommand.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ModifyResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NamingException ex) {
-            Logger.getLogger(ModifyCasesCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModifyResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

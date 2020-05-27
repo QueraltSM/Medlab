@@ -65,7 +65,6 @@
                         <option value="Medical_Genetics">Medical Genetics</option>
                         <option value="Neurology">Neurology</option>
                         <option value="Nuclear_Medicine">Nuclear Medicine</option>
-                        <option value="Obstretics_and_Gynecology">Obstretics and Gynecology</option>
                         <option value="Opthalmology">Opthalmology</option>
                         <option value="Pathology">Pathology</option>
                         <option value="Pediatrics">Pediatrics</option>

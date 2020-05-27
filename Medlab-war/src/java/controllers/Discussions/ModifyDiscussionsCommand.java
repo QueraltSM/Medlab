@@ -31,7 +31,7 @@ public class ModifyDiscussionsCommand extends FrontCommand {
     private DiscussionsFacade discussionsDB;
     private HttpSession session;
     
-    private void modifyDiscussions() {
+    private void modifyDiscussion() {
         try {
             String title = new String(request.getParameter("title").getBytes("ISO8859_1"), "UTF-8");
             String description = new String(request.getParameter("description").getBytes("ISO8859_1"), "UTF-8");
@@ -44,7 +44,7 @@ public class ModifyDiscussionsCommand extends FrontCommand {
             discussions.setViews(discussionsDB.find(id).getViews());
             discussions.setSpeciality(new Speciality(request.getParameter("speciality")));
             discussions.setDate(new Date());
-            discussionsDB.updateDiscussions(discussions);
+            discussionsDB.updateDiscussion(discussions);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(ModifyDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -64,7 +64,7 @@ public class ModifyDiscussionsCommand extends FrontCommand {
             log1.setEjbs("ModifyDiscussionsCommand:process()");
             log.create(log1);
             discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");
-            modifyDiscussions();
+            modifyDiscussion();
             DiscussionsDetailsCommand command = new DiscussionsDetailsCommand();
             command.init(context, request, response);
             command.process();

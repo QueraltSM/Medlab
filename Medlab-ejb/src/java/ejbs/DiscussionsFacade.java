@@ -81,7 +81,7 @@ public class DiscussionsFacade extends AbstractFacade<Discussions> {
         .getResultList();
     }
     
-    public void insertDiscussions(Discussions discussion) {
+    public void insertDiscussion(Discussions discussion) {
         setLogTrace("DiscussionsFacade::insertDiscussions");
         em.createNativeQuery("INSERT INTO DISCUSSIONS (id, title, author, description, date, speciality, views) VALUES (?,?,?,?,?,?,?)")
         .setParameter(1, discussion.getId())
@@ -94,14 +94,14 @@ public class DiscussionsFacade extends AbstractFacade<Discussions> {
         .executeUpdate();
     }
     
-    public void deleteDiscussions(long id) {
+    public void deleteDiscussion(long id) {
         setLogTrace("DiscussionsFacade::deleteDiscussions");
         em.createQuery("DELETE FROM Discussions n WHERE n.id = :id")
         .setParameter("id", id)
         .executeUpdate();   
     }
     
-    public void updateDiscussions(Discussions discussion) {
+    public void updateDiscussion(Discussions discussion) {
         setLogTrace("DiscussionsFacade::updateDiscussions");
         em.createQuery("UPDATE Discussions n set n.title = :title, n.description = :description, n.date = :date, n.speciality = :speciality, n.views = :views, n.author = :author WHERE n.id = :id")
         .setParameter("date", discussion.getDate())

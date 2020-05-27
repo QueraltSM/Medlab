@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers.Discussions;
+package controllers.Researches;
 
 import controllers.FrontCommand;
 import ejbs.LogFacade;
-import ejbs.DiscussionsFacade;
+import ejbs.ResearchesFacade;
 import entities.Log;
-import entities.Discussions;
+import entities.Researches;
 import entities.Speciality;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -26,28 +26,30 @@ import javax.servlet.http.HttpSession;
  *
  * @author QSM
  */
-public class AddDiscussionsCommand extends FrontCommand {
+public class AddResearchesCommand extends FrontCommand {
     private LogFacade log;
-    private DiscussionsFacade discussionsDB;
+    private ResearchesFacade researchesDB;
     private HttpSession session;
     
-    private void createDiscussion() {
+    private void createResearch() {
         try {
             String title = new String(request.getParameter("title").getBytes("ISO8859_1"), "UTF-8");
             String description = new String(request.getParameter("description").getBytes("ISO8859_1"), "UTF-8");
-            Discussions discussions = new Discussions();
+            String conclusions = new String(request.getParameter("conclusions").getBytes("ISO8859_1"), "UTF-8");
+            Researches researches = new Researches();
             long id = 0;
-            if (!discussionsDB.findAll().isEmpty()) id = discussionsDB.findAll().get(discussionsDB.count()-1).getId()+1;
-            discussions.setId(id);
-            discussions.setViews(0);
-            discussions.setAuthor((String)session.getAttribute("email"));
-            discussions.setTitle(title);
-            discussions.setDescription(description);
-            discussions.setSpeciality(new Speciality(request.getParameter("speciality")));
-            discussions.setDate(new Date());
-            discussionsDB.insertDiscussion(discussions);
+            if (!researchesDB.findAll().isEmpty()) id = researchesDB.findAll().get(researchesDB.count()-1).getId()+1;
+            researches.setId(id);
+            researches.setViews(0);
+            researches.setTitle(title);
+            researches.setDescription(description);
+            researches.setSpeciality(new Speciality(request.getParameter("speciality")));
+            researches.setDate(new Date());
+            researches.setAuthor((String)session.getAttribute("email"));
+            researches.setConclusions(conclusions);
+            researchesDB.insertResearch(researches);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(AddDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -62,21 +64,21 @@ public class AddDiscussionsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
-            log1.setEjbs("AddDiscussionsCommand:process()");
+            log1.setEjbs("AddResearchesCommand:process()");
             log.create(log1);
-            discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");
-            createDiscussion();
-            ShowDiscussionsCommand command = new ShowDiscussionsCommand();
+            researchesDB = (ResearchesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ResearchesFacade!ejbs.ResearchesFacade");
+            createResearch();
+            ShowResearchesCommand command = new ShowResearchesCommand();
             command.init(context, request, response);
             command.process();
             try {
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewDiscussions.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewResearch.jsp");
                 requestDispatcher.forward(request, response);
             } catch (ServletException | IOException ex) {
-                Logger.getLogger(AddDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AddResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NamingException ex) {
-            Logger.getLogger(AddDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
