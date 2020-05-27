@@ -32,17 +32,15 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Speciality.findAll", query = "SELECT s FROM Speciality s"),
     @NamedQuery(name = "Speciality.findByType", query = "SELECT s FROM Speciality s WHERE s.type = :type")})
 public class Speciality implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "speciality")
-    private Collection<Clinicalcases> clinicalcasesCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 255)
     @Column(name = "TYPE")
     private String type;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "speciality")
-    private Collection<News> newsCollection;
+    private Collection<Discussions> discussionsCollection;
 
     public Speciality() {
     }
@@ -60,12 +58,12 @@ public class Speciality implements Serializable {
     }
 
     @XmlTransient
-    public Collection<News> getNewsCollection() {
-        return newsCollection;
+    public Collection<Discussions> getDiscussionsCollection() {
+        return discussionsCollection;
     }
 
-    public void setNewsCollection(Collection<News> newsCollection) {
-        this.newsCollection = newsCollection;
+    public void setDiscussionsCollection(Collection<Discussions> discussionsCollection) {
+        this.discussionsCollection = discussionsCollection;
     }
 
     @Override
@@ -91,15 +89,6 @@ public class Speciality implements Serializable {
     @Override
     public String toString() {
         return "entities.Speciality[ type=" + type + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Clinicalcases> getClinicalcasesCollection() {
-        return clinicalcasesCollection;
-    }
-
-    public void setClinicalcasesCollection(Collection<Clinicalcases> clinicalcasesCollection) {
-        this.clinicalcasesCollection = clinicalcasesCollection;
     }
     
 }

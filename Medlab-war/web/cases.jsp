@@ -22,6 +22,7 @@
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link type="text/css" rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="css/form.css">
         <link rel="icon" href="Images/icon.jpg"> 
     </head>
     <body onload='loadLastSortSelection("cases")'>
@@ -35,7 +36,7 @@
                             <h2 id="title_cases">All cases</h2>
                             <% } %>
                             <div class="pull-right">
-                                <select onchange='sortList("Cases", "cases")' id="sort_type_cases" class="select_speciality">
+                                <select onchange='sortList("Cases", "cases")' id="sort_type_cases" class="form-input">
                                     <option value="recent">Sort by most recent</option>
                                     <option value="viewed">Sort by most viewed</option>
                                 </select>

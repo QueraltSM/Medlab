@@ -96,7 +96,8 @@ public class NewsFacade extends AbstractFacade<News> {
     
     public void updateNews(News news) {
         setLogTrace("NewsFacade::updateNews");
-        em.createQuery("UPDATE News n set n.title = :title, n.description = :description, n.date = :date, n.speciality = :speciality, n.views = :views")
+        em.createQuery("UPDATE News n set n.title = :title, n.description = :description, n.date = :date, n.speciality = :speciality, n.views = :views WHERE n.id = :id")
+        .setParameter("id", news.getId())
         .setParameter("date", news.getDate())
         .setParameter("description", news.getDescription())
         .setParameter("title", news.getTitle())

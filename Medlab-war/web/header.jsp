@@ -6,6 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Medlab</title>
         <link rel="stylesheet" type="text/css" href="css/menu.css">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <script src='https://kit.fontawesome.com/a076d05399.js'></script>
@@ -13,6 +14,7 @@
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link type="text/css" rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="css/form.css">
     </head>
     <body>
         <% if (session.getAttribute("logged") != null && session.getAttribute("logged").equals("true")) {%>
@@ -50,8 +52,8 @@
         <% } %>
         <form action ="FrontController">
             <div class="search_box" id="search_box">        
-                <div class="search-field-wrap">
-                    <select  class="select_speciality" id="speciality_search" name="speciality_search">
+                <div class="form-group">
+                    <select class="search-input" style="width:250px" id="speciality_search" name="speciality_search">
                         <option value="All specialities" selected>All specialities</</option>
                         <option value="Allergy_and_Inmunology">Allergy and Inmunology</option>
                         <option value="Anesthesiology">Anesthesiology</option>
@@ -73,8 +75,8 @@
                         <option value="Surgery">Surgery</option>
                         <option value="Urology">Urology</option>
                     </select>
-                    <input class="search-input" type="text" name="keyword_search" id="keyword_search" placeholder="Enter keyword or title...">
-                    <button class="search-btn"><i class="fa fa-search" ></i></button>
+                    <input class="search-input" type="text" name="keyword_search" id="keyword_search" placeholder="Enter keyword" />
+                    <button class="search-btn"><i class="fa fa-search"></i></button>
                     <input name="command" id="search_command" type="hidden" value="<%out.print(session.getAttribute("search_command"));%>">
                 </div>
             </div>

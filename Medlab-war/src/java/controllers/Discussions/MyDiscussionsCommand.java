@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers.News;
+package controllers.Discussions;
 
 import controllers.FrontCommand;
 import ejbs.LogFacade;
-import ejbs.NewsFacade;
+import ejbs.DiscussionsFacade;
 import entities.Log;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -16,18 +16,19 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author QSM
  */
-public class DeleteNewsCommand extends FrontCommand {
+public class MyDiscussionsCommand extends FrontCommand {
+    private HttpSession session;
+    private DiscussionsFacade discussionsDB;
     private LogFacade log;
-    private NewsFacade newsDB;
-
-    private void deleteNews() {
-        long id = Long.parseLong((String) request.getParameter("id"));
-        newsDB.deleteNews(id);
+    
+    private void getUserDiscussions() {
+        request.setAttribute("discussions", discussionsDB.findDiscussionsbyAuthor((String) session.getAttribute("email")));
     }
 
     @Override
@@ -40,22 +41,19 @@ public class DeleteNewsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
-            log1.setEjbs("DeleteNewsCommand:process()");
+            log1.setEjbs("MyDiscussionsCommand:process()");
             log.create(log1);
-            newsDB = (NewsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsFacade!ejbs.NewsFacade");
-            deleteNews();
-            ShowNewsCommand command = new ShowNewsCommand();
-            command.init(context, request, response);
-            command.process();
+            session = request.getSession(true);
+            discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");
+            getUserDiscussions();
             try {
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewNews.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("myDiscussions.jsp");
                 requestDispatcher.forward(request, response);
             } catch (ServletException | IOException ex) {
-                Logger.getLogger(DeleteNewsCommand.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MyDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NamingException ex) {
-            Logger.getLogger(DeleteNewsCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MyDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 }

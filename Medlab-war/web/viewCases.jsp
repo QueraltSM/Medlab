@@ -106,7 +106,7 @@
                                         <textarea class="input" name="message" id="message" placeholder="Message" required></textarea>
                                     </div>
                                     <input name="command" type="hidden" value="AddCommentCommand">
-                                    <input name="id_type" type="hidden" value=<% out.println(clinical_case.getId());%>>
+                                    <input name="id_type" type="hidden" value=<% out.println(clinical_case.getId());%> />
                                     <input name="type" type="hidden" value="discussion">
                                     <button class="primary-button">Share</button>
                                 </div>

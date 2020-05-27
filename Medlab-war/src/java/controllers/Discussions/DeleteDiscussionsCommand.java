@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers.News;
+package controllers.Discussions;
 
 import controllers.FrontCommand;
 import ejbs.LogFacade;
-import ejbs.NewsFacade;
+import ejbs.DiscussionsFacade;
 import entities.Log;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -21,13 +21,13 @@ import javax.servlet.ServletException;
  *
  * @author QSM
  */
-public class DeleteNewsCommand extends FrontCommand {
+public class DeleteDiscussionsCommand extends FrontCommand {
     private LogFacade log;
-    private NewsFacade newsDB;
+    private DiscussionsFacade discussionsDB;
 
-    private void deleteNews() {
+    private void deleteDiscussions() {
         long id = Long.parseLong((String) request.getParameter("id"));
-        newsDB.deleteNews(id);
+        discussionsDB.deleteDiscussions(id);
     }
 
     @Override
@@ -40,21 +40,21 @@ public class DeleteNewsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
-            log1.setEjbs("DeleteNewsCommand:process()");
+            log1.setEjbs("DeleteDiscussionsCommand:process()");
             log.create(log1);
-            newsDB = (NewsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsFacade!ejbs.NewsFacade");
-            deleteNews();
-            ShowNewsCommand command = new ShowNewsCommand();
+            discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");
+            deleteDiscussions();
+            ShowDiscussionsCommand command = new ShowDiscussionsCommand();
             command.init(context, request, response);
             command.process();
             try {
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewNews.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewDiscussions.jsp");
                 requestDispatcher.forward(request, response);
             } catch (ServletException | IOException ex) {
-                Logger.getLogger(DeleteNewsCommand.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DeleteDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NamingException ex) {
-            Logger.getLogger(DeleteNewsCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeleteDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
