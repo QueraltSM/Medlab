@@ -51,6 +51,7 @@ public class LoginCommand extends FrontCommand {
             request.setAttribute("login_error_password", "Password is incorrect");
         }
         if (exists) {
+            session.setAttribute("userID", user.getId());
             session.setAttribute("usertype", user.getType());
             session.setAttribute("fullname", user.getFullname().getFirstName());
         }

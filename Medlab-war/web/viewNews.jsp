@@ -15,6 +15,7 @@
         <title>Medlab | News</title>
         <link rel="stylesheet" type="text/css" href="css/menu.css">
         <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/form.css">
         <script src='https://kit.fontawesome.com/a076d05399.js'></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -71,14 +72,22 @@
                             <div class="media">
                                 <div class="media-body">
                                     <div class="media-heading">
-                                        <h4><% out.println(comment.getAuthor());%></h4>
+                                        <h4><% out.println(comment.getAuthor().getFirstname());%></h4>
                                         <%  d = new Date(comment.getDate().getTime());
                                             f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                         %>
                                         <span class="time"><% out.println(f.format(d));%></span>
                                     </div>
-                                    <p><% out.println(comment.getMessage());%></p>
-
+                                    <% if (session.getAttribute("userID").equals(comment.getAuthor().getId())) {%>
+                                    <form action="FrontController">
+                                        <textarea class="input" name="updated_message" id="updated_message" placeholder="<%=comment.getMessage()%>"></textarea>
+                                        <a href="FrontController?command=DeleteCommentCommand&id=<%=comment.getId()%>"><i class="fa fa-trash"></i>Delete    </a><button type="submit"><i class="fa fa-edit"></i>Modify</button>
+                                        <input name="command" type="hidden" value="ModifyCommentCommand">
+                                        <input name="id" type="hidden" value='<%=comment.getId()%>' />
+                                    </form>
+                                    <%} else {%>
+                                        <p><%=comment.getMessage()%></p>
+                                    <%}%>
                                 </div>
                             </div>
                             <%
@@ -98,7 +107,7 @@
                                     </div>
                                     <input name="command" type="hidden" value="AddCommentCommand">
                                     <input name="id_type" type="hidden" value=<% out.println(news.getId());%> />
-                                    <input name="type" type="hidden" value="discussion">
+                                    <input name="type" type="hidden" value="news">
                                     <button class="primary-button">Share</button>
                                 </div>
                             </div>

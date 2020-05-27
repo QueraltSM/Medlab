@@ -6,6 +6,7 @@
 package ejbs;
 
 import entities.Log;
+import entities.News;
 import entities.Users;
 import java.util.List;
 import javax.ejb.EJB;
@@ -33,6 +34,11 @@ public class UsersFacade extends AbstractFacade<Users> {
         super(Users.class);
     }
     
+    public List<Users> findUserbyID(long id) {
+        setLogTrace("UsersFacade::findUserbyID");
+        return em.createNamedQuery("Users.findById")
+                .setParameter("id", id).getResultList();
+    }
     public List<Users> findUserbyEmail(String email) {
         setLogTrace("UsersFacade::findUserbyEmail");
         return em.createNamedQuery("Users.findByEmail")

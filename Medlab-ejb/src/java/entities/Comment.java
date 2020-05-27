@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -30,10 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
     @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
-    @NamedQuery(name = "Comment.findByIdType", query = "SELECT c FROM Comment c WHERE c.idType = :idType"),
+    @NamedQuery(name = "Comment.findByDate", query = "SELECT c FROM Comment c WHERE c.date = :date"),
     @NamedQuery(name = "Comment.findByMessage", query = "SELECT c FROM Comment c WHERE c.message = :message"),
-    @NamedQuery(name = "Comment.findByAuthor", query = "SELECT c FROM Comment c WHERE c.author = :author"),
-    @NamedQuery(name = "Comment.findByDate", query = "SELECT c FROM Comment c WHERE c.date = :date")})
+    @NamedQuery(name = "Comment.findByIdType", query = "SELECT c FROM Comment c WHERE c.idType = :idType")})
 public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,24 +42,19 @@ public class Comment implements Serializable {
     @NotNull
     @Column(name = "ID")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_TYPE")
-    private long idType;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 700)
+    @Column(name = "DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+    @Size(max = 255)
     @Column(name = "MESSAGE")
     private String message;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "AUTHOR")
-    private long author;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "DATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    @Column(name = "ID_TYPE")
+    private long idType;
+    @JoinColumn(name = "AUTHOR", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Users author;
 
     public Comment() {
     }
@@ -67,12 +63,9 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public Comment(Long id, long idType, String message, long author, Date date) {
+    public Comment(Long id, long idType) {
         this.id = id;
         this.idType = idType;
-        this.message = message;
-        this.author = author;
-        this.date = date;
     }
 
     public Long getId() {
@@ -83,12 +76,12 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public long getIdType() {
-        return idType;
+    public Date getDate() {
+        return date;
     }
 
-    public void setIdType(long idType) {
-        this.idType = idType;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getMessage() {
@@ -99,20 +92,20 @@ public class Comment implements Serializable {
         this.message = message;
     }
 
-    public long getAuthor() {
+    public long getIdType() {
+        return idType;
+    }
+
+    public void setIdType(long idType) {
+        this.idType = idType;
+    }
+
+    public Users getAuthor() {
         return author;
     }
 
-    public void setAuthor(long author) {
+    public void setAuthor(Users author) {
         this.author = author;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     @Override

@@ -56,6 +56,8 @@ public class FrontController extends HttpServlet {
             command += "Discussions.";
         } else if (((String)req.getParameter("command")).contains("Researches")) {
             command += "Researches.";
+        } else if (((String)req.getParameter("command")).contains("Comment")) {
+            command += "Comments.";
         }
         
         command += (String)req.getParameter("command");
