@@ -8,6 +8,7 @@ package ejbs;
 import entities.Log;
 import entities.Researches;
 import entities.Speciality;
+import entities.Users;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -45,7 +46,7 @@ public class ResearchesFacade extends AbstractFacade<Researches> {
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Researches.class);
         root = query.from(Researches.class);
-        query.select(root).where(cb.like(root.get("title"), title)); 
+        query.select(root).where(cb.like(root.get("title"), "%"+title+"%"));
         return em.createQuery(query).getResultList();
     }
        
@@ -54,7 +55,7 @@ public class ResearchesFacade extends AbstractFacade<Researches> {
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Researches.class);
         root = query.from(Researches.class);
-        query.select(root).where(cb.equal(root.get("speciality"), speciality.getType())); 
+        query.select(root).where(cb.equal(root.get("speciality"), speciality)); 
         return em.createQuery(query).getResultList();
     }
       
@@ -64,17 +65,17 @@ public class ResearchesFacade extends AbstractFacade<Researches> {
         query = cb.createQuery(Researches.class);
         root = query.from(Researches.class);
         query.select(root)
-                .where(cb.like(root.get("title"), title))
-                .where(cb.equal(root.get("speciality"), speciality.getType())); 
+                .where(cb.like(root.get("title"), "%"+title+"%"))
+                .where(cb.equal(root.get("speciality"), speciality)); 
         return em.createQuery(query).getResultList();
     }
            
-    public List<Researches> findResearchesbyAuthor(String author) {
+    public List<Researches> findResearchesbyAuthor(Users author) {
         setLogTrace("ResearchesFacade::findResearchesbyAuthor");
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Researches.class);
         root = query.from(Researches.class);
-        query.select(root).where(cb.like(root.get("author"), author)); 
+        query.select(root).where(cb.equal(root.get("author"), author)); 
         return em.createQuery(query).getResultList();
     }
     

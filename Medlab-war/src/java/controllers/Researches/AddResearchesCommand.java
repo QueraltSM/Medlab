@@ -8,9 +8,11 @@ package controllers.Researches;
 import controllers.FrontCommand;
 import ejbs.LogFacade;
 import ejbs.ResearchesFacade;
+import ejbs.UsersFacade;
 import entities.Log;
 import entities.Researches;
 import entities.Speciality;
+import entities.Users;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpSession;
 public class AddResearchesCommand extends FrontCommand {
     private LogFacade log;
     private ResearchesFacade researchesDB;
+    private UsersFacade usersDB;
     private HttpSession session;
     
     private void createResearch() {
@@ -37,6 +40,8 @@ public class AddResearchesCommand extends FrontCommand {
             String description = new String(request.getParameter("description").getBytes("ISO8859_1"), "UTF-8");
             String conclusions = new String(request.getParameter("conclusions").getBytes("ISO8859_1"), "UTF-8");
             Researches researches = new Researches();
+            long userID = Long.parseLong(String.valueOf(session.getAttribute("userID")));
+            Users user_logged = usersDB.findUserbyID(userID).get(0);
             long id = 0;
             if (!researchesDB.findAll().isEmpty()) id = researchesDB.findAll().get(researchesDB.count()-1).getId()+1;
             researches.setId(id);
@@ -45,7 +50,7 @@ public class AddResearchesCommand extends FrontCommand {
             researches.setDescription(description);
             researches.setSpeciality(new Speciality(request.getParameter("speciality")));
             researches.setDate(new Date());
-            researches.setAuthor((String)session.getAttribute("email"));
+            researches.setAuthor(user_logged);
             researches.setConclusions(conclusions);
             researchesDB.insertResearch(researches);
         } catch (UnsupportedEncodingException ex) {
@@ -66,6 +71,7 @@ public class AddResearchesCommand extends FrontCommand {
             log1.setId(id);
             log1.setEjbs("AddResearchesCommand:process()");
             log.create(log1);
+            usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
             researchesDB = (ResearchesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ResearchesFacade!ejbs.ResearchesFacade");
             createResearch();
             ShowResearchesCommand command = new ShowResearchesCommand();

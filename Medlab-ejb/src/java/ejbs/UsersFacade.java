@@ -6,7 +6,6 @@
 package ejbs;
 
 import entities.Log;
-import entities.News;
 import entities.Users;
 import java.util.List;
 import javax.ejb.EJB;
@@ -47,9 +46,16 @@ public class UsersFacade extends AbstractFacade<Users> {
     
     public void insertUser(Users user) {
         setLogTrace("UsersFacade::insertUser");
-        em.persist(user);
+        em.createNativeQuery("INSERT INTO USERS (id, email, firstname, lastname, password, type) VALUES (?,?,?,?,?,?)")
+        .setParameter(1, user.getId())
+        .setParameter(2, user.getEmail())
+        .setParameter(3, user.getFullname().getFirstName())
+        .setParameter(4, user.getFullname().getLastName())
+        .setParameter(5, user.getPassword())
+        .setParameter(6, user.getType())
+        .executeUpdate();
     }
-    
+        
     public void setLogTrace(String ejbs) {
         Log log1 = new Log();
         long id = 1;

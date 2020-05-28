@@ -8,6 +8,7 @@ package ejbs;
 import entities.Discussions;
 import entities.Log;
 import entities.Speciality;
+import entities.Users;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -46,7 +47,7 @@ public class DiscussionsFacade extends AbstractFacade<Discussions> {
                 .setParameter("title", "%"+ title+ "%").getResultList();
     }
     
-    public List<Discussions> findDiscussionsbyAuthor(String author) {
+    public List<Discussions> findDiscussionsbyAuthor(Users author) {
         setLogTrace("DiscussionsFacade::findDiscussionsbyID");
         return em.createNamedQuery("Discussions.findByAuthor")
                 .setParameter("author", author).getResultList();
@@ -86,7 +87,7 @@ public class DiscussionsFacade extends AbstractFacade<Discussions> {
         em.createNativeQuery("INSERT INTO DISCUSSIONS (id, title, author, description, date, speciality, views) VALUES (?,?,?,?,?,?,?)")
         .setParameter(1, discussion.getId())
         .setParameter(2, discussion.getTitle())
-        .setParameter(3, discussion.getAuthor())
+        .setParameter(3, discussion.getAuthor().getId())
         .setParameter(4, discussion.getDescription())
         .setParameter(5, discussion.getDate())
         .setParameter(6, discussion.getSpeciality().getType())
@@ -103,13 +104,12 @@ public class DiscussionsFacade extends AbstractFacade<Discussions> {
     
     public void updateDiscussion(Discussions discussion) {
         setLogTrace("DiscussionsFacade::updateDiscussions");
-        em.createQuery("UPDATE Discussions n set n.title = :title, n.description = :description, n.date = :date, n.speciality = :speciality, n.views = :views, n.author = :author WHERE n.id = :id")
+        em.createQuery("UPDATE Discussions n set n.title = :title, n.description = :description, n.date = :date, n.speciality = :speciality WHERE n.id = :id")
+        .setParameter("id", discussion.getId())
         .setParameter("date", discussion.getDate())
         .setParameter("description", discussion.getDescription())
         .setParameter("title", discussion.getTitle())
-        .setParameter("author", discussion.getAuthor())
         .setParameter("speciality", discussion.getSpeciality())
-        .setParameter("views", discussion.getViews())
         .executeUpdate();
     }
        

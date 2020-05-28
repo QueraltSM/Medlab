@@ -10,8 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -33,9 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Discussions.findAll", query = "SELECT d FROM Discussions d"),
-    @NamedQuery(name="Discussions.findLikeTitle", query="SELECT d FROM Discussions d WHERE d.title LIKE :title"),
-    @NamedQuery(name = "Discussions.findById", query = "SELECT d FROM Discussions d WHERE d.id = :id"),
     @NamedQuery(name = "Discussions.findByAuthor", query = "SELECT d FROM Discussions d WHERE d.author = :author"),
+    @NamedQuery(name = "Discussions.findById", query = "SELECT d FROM Discussions d WHERE d.id = :id"),
     @NamedQuery(name = "Discussions.findByDate", query = "SELECT d FROM Discussions d WHERE d.date = :date"),
     @NamedQuery(name = "Discussions.findByDescription", query = "SELECT d FROM Discussions d WHERE d.description = :description"),
     @NamedQuery(name = "Discussions.findByTitle", query = "SELECT d FROM Discussions d WHERE d.title = :title"),
@@ -43,14 +40,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Discussions implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID")
     private Long id;
-    @Size(max = 255)
-    @Column(name = "AUTHOR")
-    private String author;
     @Column(name = "DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
@@ -63,8 +56,11 @@ public class Discussions implements Serializable {
     @Column(name = "VIEWS")
     private Integer views;
     @JoinColumn(name = "SPECIALITY", referencedColumnName = "TYPE")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Speciality speciality;
+    @JoinColumn(name = "AUTHOR", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Users author;
 
     public Discussions() {
     }
@@ -79,14 +75,6 @@ public class Discussions implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public Date getDate() {
@@ -127,6 +115,14 @@ public class Discussions implements Serializable {
 
     public void setSpeciality(Speciality speciality) {
         this.speciality = speciality;
+    }
+
+    public Users getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override

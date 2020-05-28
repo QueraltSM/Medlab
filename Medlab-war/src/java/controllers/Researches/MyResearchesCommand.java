@@ -8,7 +8,9 @@ package controllers.Researches;
 import controllers.FrontCommand;
 import ejbs.LogFacade;
 import ejbs.ResearchesFacade;
+import ejbs.UsersFacade;
 import entities.Log;
+import entities.Users;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +28,12 @@ public class MyResearchesCommand extends FrontCommand {
     private HttpSession session;
     private ResearchesFacade researchesDB;
     private LogFacade log;
+    private UsersFacade usersDB;
     
     private void getUserResearches() {
-        request.setAttribute("researches", researchesDB.findResearchesbyAuthor((String) session.getAttribute("email")));
+        long userID = Long.parseLong(String.valueOf(session.getAttribute("userID")));
+        Users user_logged = usersDB.findUserbyID(userID).get(0);
+        request.setAttribute("researches", researchesDB.findResearchesbyAuthor(user_logged));
     }
 
     @Override
@@ -45,6 +50,7 @@ public class MyResearchesCommand extends FrontCommand {
             log.create(log1);
             session = request.getSession(true);
             researchesDB = (ResearchesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ResearchesFacade!ejbs.ResearchesFacade");
+            usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
             getUserResearches();
             try {
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("myResearches.jsp");

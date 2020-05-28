@@ -7,6 +7,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,16 +35,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id"),
     @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
     @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password"),
-    @NamedQuery(name = "Users.findByType", query = "SELECT u FROM Users u WHERE u.type = :type")})
+    @NamedQuery(name = "Users.findByType", query = "SELECT u FROM Users u WHERE u.type = :type"),
+    @NamedQuery(name = "Users.findByFirstname", query = "SELECT u FROM Users u WHERE u.firstname = :firstname"),
+    @NamedQuery(name = "Users.findByLastname", query = "SELECT u FROM Users u WHERE u.lastname = :lastname")})
 public class Users implements Serializable {
-    @Size(max = 255)
-    @Column(name = "FIRSTNAME")
-    private String firstname;
-    @Size(max = 255)
-    @Column(name = "LASTNAME")
-    private String lastname;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-    private Collection<Comment> commentCollection;
+    private Collection<Discussions> discussionsCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    private Collection<Clinicalcases> clinicalcasesCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -60,15 +59,31 @@ public class Users implements Serializable {
     @Size(max = 255)
     @Column(name = "TYPE")
     private String type;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "FIRSTNAME")
+    private String firstname;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
+    @Column(name = "LASTNAME")
+    private String lastname;
 
     @Embedded 
     private Fullname fullname; 
-    
+        
     public Users() {
     }
 
     public Users(Long id) {
         this.id = id;
+    }
+
+    public Users(Long id, String firstname, String lastname) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
     public Long getId() {
@@ -103,6 +118,22 @@ public class Users implements Serializable {
         this.type = type;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -127,6 +158,7 @@ public class Users implements Serializable {
     public String toString() {
         return "entities.Users[ id=" + id + " ]";
     }
+    private static final Logger LOG = Logger.getLogger(Users.class.getName());
 
     public Fullname getFullname() {
         return fullname;
@@ -134,32 +166,23 @@ public class Users implements Serializable {
 
     public void setFullname(Fullname fullname) {
         this.fullname = fullname;
+    }  
+
+    @XmlTransient
+    public Collection<Clinicalcases> getClinicalcasesCollection() {
+        return clinicalcasesCollection;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setClinicalcasesCollection(Collection<Clinicalcases> clinicalcasesCollection) {
+        this.clinicalcasesCollection = clinicalcasesCollection;
     }
 
     @XmlTransient
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
+    public Collection<Discussions> getDiscussionsCollection() {
+        return discussionsCollection;
     }
 
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
+    public void setDiscussionsCollection(Collection<Discussions> discussionsCollection) {
+        this.discussionsCollection = discussionsCollection;
     }
-    
-    
 }

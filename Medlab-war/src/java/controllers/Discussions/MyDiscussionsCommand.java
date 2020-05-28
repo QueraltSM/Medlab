@@ -8,7 +8,9 @@ package controllers.Discussions;
 import controllers.FrontCommand;
 import ejbs.LogFacade;
 import ejbs.DiscussionsFacade;
+import ejbs.UsersFacade;
 import entities.Log;
+import entities.Users;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +28,12 @@ public class MyDiscussionsCommand extends FrontCommand {
     private HttpSession session;
     private DiscussionsFacade discussionsDB;
     private LogFacade log;
+    private UsersFacade usersDB;
     
     private void getUserDiscussions() {
-        request.setAttribute("discussions", discussionsDB.findDiscussionsbyAuthor((String) session.getAttribute("email")));
+        long userID = Long.parseLong(String.valueOf(session.getAttribute("userID")));
+        Users user_logged = usersDB.findUserbyID(userID).get(0);
+        request.setAttribute("discussions", discussionsDB.findDiscussionsbyAuthor(user_logged));
     }
 
     @Override
@@ -45,6 +50,7 @@ public class MyDiscussionsCommand extends FrontCommand {
             log.create(log1);
             session = request.getSession(true);
             discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");
+            usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
             getUserDiscussions();
             try {
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("myDiscussions.jsp");

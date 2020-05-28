@@ -63,7 +63,7 @@
                             <p class = "case_description"><% out.println(research.getConclusions());%> </p><br><br><br>
                             <p class="statistics">
                                 <%=research.getViews()+1%> views<br><br><br>
-                                <% if (session.getAttribute("email").equals(research.getAuthor())) {%>
+                                <% if (session.getAttribute("userID").equals(research.getAuthor().getId())) {%>
                                 <a href="FrontController?command=DeleteResearchesCommand&id=<%=research.getId()%>"><i class="fas fa-trash"></i> Delete</a>   <a href="FrontController?command=ResearchesDetailsCommand&action=edit&id=<%=research.getId()%>"><i class="fas fa-edit"></i> Modify</a>
                                 <%}%>
                         </div>

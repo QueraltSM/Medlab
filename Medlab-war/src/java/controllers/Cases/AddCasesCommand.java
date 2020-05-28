@@ -8,9 +8,11 @@ package controllers.Cases;
 import controllers.FrontCommand;
 import ejbs.LogFacade;
 import ejbs.ClinicalcasesFacade;
+import ejbs.UsersFacade;
 import entities.Log;
 import entities.Clinicalcases;
 import entities.Speciality;
+import entities.Users;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -30,6 +32,7 @@ public class AddCasesCommand extends FrontCommand {
     private LogFacade log;
     private ClinicalcasesFacade casesDB;
     private HttpSession session;
+    private UsersFacade usersDB;
     
     private void createCase() {
         try {
@@ -47,7 +50,9 @@ public class AddCasesCommand extends FrontCommand {
             cases.setDescription(description);
             cases.setSpeciality(new Speciality(request.getParameter("speciality")));
             cases.setDate(new Date());
-            cases.setAuthor((String)session.getAttribute("email"));
+            long userID = Long.parseLong(String.valueOf(session.getAttribute("userID")));
+            Users user_logged = usersDB.findUserbyID(userID).get(0);
+            cases.setAuthor(user_logged);
             cases.setExamination(examination);
             cases.setQuestions(questions);
             cases.setHistory(history);
@@ -71,6 +76,7 @@ public class AddCasesCommand extends FrontCommand {
             log1.setEjbs("AddCasesCommand:process()");
             log.create(log1);
             casesDB = (ClinicalcasesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ClinicalcasesFacade!ejbs.ClinicalcasesFacade");
+            usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
             createCase();
             ShowCasesCommand command = new ShowCasesCommand();
             command.init(context, request, response);

@@ -61,13 +61,13 @@
                             <p class = "case_description"><% out.println(clinical_case.getQuestions());%></p><br><br><br>
                             <p class="statistics">
                                 <%=clinical_case.getViews()+1%> views<br><br><br>
-                                <% if (session.getAttribute("email").equals(clinical_case.getAuthor())) {%>
-                                <a href="FrontController?command=DeleteCasesCommand&id=<%=clinical_case.getId()%>"><i class="fas fa-trash"></i> Delete</a>   <a href="FrontController?command=CasesDetailsCommand&action=edit&id=<%=clinical_case.getId()%>"><i class="fas fa-edit"></i> Modify</a>
+                                <% if (session.getAttribute("userID").equals(clinical_case.getAuthor().getId())) {%>
+                                    <a href="FrontController?command=DeleteCasesCommand&id=<%=clinical_case.getId()%>"><i class="fas fa-trash"></i> Delete</a>   <a href="FrontController?command=CasesDetailsCommand&action=edit&id=<%=clinical_case.getId()%>"><i class="fas fa-edit"></i> Modify</a>
                                 <%}%>
                         </div>    
                     </div>
                     <div class="post-author">
-                        <br>Posted By <% out.println(clinical_case.getAuthor());%>
+                        <br>Posted By <% out.println(clinical_case.getAuthor().getFullname().toString());%>
                     </div> 
                     <%List<Comment> comments = (List<Comment>) request.getAttribute("comments");%>						
                     <div class="section-row">

@@ -59,13 +59,13 @@
                             <p class = "case_description"><% out.println(discussion.getDescription());%> </p><br><br><br>
                             <p class="statistics">
                                 <%=discussion.getViews()+1%> views<br><br><br>
-                                <% if (session.getAttribute("email").equals(discussion.getAuthor())) {%>
+                                <% if (session.getAttribute("userID").equals(discussion.getAuthor().getId())) {%>
                                 <a href="FrontController?command=DeleteDiscussionsCommand&id=<%=discussion.getId()%>"><i class="fas fa-trash"></i> Delete</a>   <a href="FrontController?command=DiscussionsDetailsCommand&action=edit&id=<%=discussion.getId()%>"><i class="fas fa-edit"></i> Modify</a>
                                 <%}%>
                         </div>
                         <div class="section-row">
                             <div class="post-author">
-                                Posted By <% out.println(discussion.getAuthor());%>
+                                Posted By <% out.println(discussion.getAuthor().getFullname().toString());%>
                             </div>
                         </div>
                     </div>

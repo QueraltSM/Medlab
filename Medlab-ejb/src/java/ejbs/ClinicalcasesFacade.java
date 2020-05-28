@@ -8,6 +8,7 @@ package ejbs;
 import entities.Log;
 import entities.Clinicalcases;
 import entities.Speciality;
+import entities.Users;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -45,7 +46,7 @@ public class ClinicalcasesFacade extends AbstractFacade<Clinicalcases> {
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Clinicalcases.class);
         root = query.from(Clinicalcases.class);
-        query.select(root).where(cb.like(root.get("title"), title)); 
+        query.select(root).where(cb.like(root.get("title"), "%"+title+"%")); 
         return em.createQuery(query).getResultList();
     }
        
@@ -54,7 +55,7 @@ public class ClinicalcasesFacade extends AbstractFacade<Clinicalcases> {
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Clinicalcases.class);
         root = query.from(Clinicalcases.class);
-        query.select(root).where(cb.equal(root.get("speciality"), speciality.getType())); 
+        query.select(root).where(cb.equal(root.get("speciality"), speciality)); 
         return em.createQuery(query).getResultList();
     }
       
@@ -64,17 +65,18 @@ public class ClinicalcasesFacade extends AbstractFacade<Clinicalcases> {
         query = cb.createQuery(Clinicalcases.class);
         root = query.from(Clinicalcases.class);
         query.select(root)
-                .where(cb.like(root.get("title"), title))
-                .where(cb.equal(root.get("speciality"), speciality.getType())); 
+                .where(cb.like(root.get("title"), "%"+title+"%"))
+                .where(cb.equal(root.get("speciality"), speciality)); 
         return em.createQuery(query).getResultList();
     }
            
-    public List<Clinicalcases> findCasesbyAuthor(String author) {
+    public List<Clinicalcases> findCasesbyAuthor(Users author) {
         setLogTrace("ClinicalcasesFacade::findCasesbyAuthor");
+        System.out.println("HOLAP = " + author);
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Clinicalcases.class);
         root = query.from(Clinicalcases.class);
-        query.select(root).where(cb.like(root.get("author"), author)); 
+        query.select(root).where(cb.equal(root.get("author"), author)); 
         return em.createQuery(query).getResultList();
     }
     

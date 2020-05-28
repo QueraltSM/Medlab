@@ -32,12 +32,14 @@ public class SignupCommand extends FrontCommand {
             Fullname fullname = new Fullname();
             fullname.setFirstName(first_name);
             fullname.setLastName(last_name);
-            Users user = new Users(Long.parseLong(request.getParameter("license_number")));
+            Users user = new Users();
+            user.setId(Long.parseLong(String.valueOf(request.getParameter("license_number"))));
             user.setFullname(fullname);
             user.setEmail(email);
             user.setPassword(password);
             user.setType(type);
             usersDB.insertUser(user);
+            
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(SignupCommand.class.getName()).log(Level.SEVERE, null, ex);
         }

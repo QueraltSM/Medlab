@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Researches.findById", query = "SELECT r FROM Researches r WHERE r.id = :id"),
     @NamedQuery(name = "Researches.findByTitle", query = "SELECT r FROM Researches r WHERE r.title = :title"),
     @NamedQuery(name = "Researches.findByDescription", query = "SELECT r FROM Researches r WHERE r.description = :description"),
-    @NamedQuery(name = "Researches.findByAuthor", query = "SELECT r FROM Researches r WHERE r.author = :author"),
     @NamedQuery(name = "Researches.findByDate", query = "SELECT r FROM Researches r WHERE r.date = :date"),
     @NamedQuery(name = "Researches.findByViews", query = "SELECT r FROM Researches r WHERE r.views = :views"),
     @NamedQuery(name = "Researches.findByConclusions", query = "SELECT r FROM Researches r WHERE r.conclusions = :conclusions")})
@@ -57,11 +56,6 @@ public class Researches implements Serializable {
     private String description;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 150)
-    @Column(name = "AUTHOR")
-    private String author;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
@@ -77,6 +71,9 @@ public class Researches implements Serializable {
     @JoinColumn(name = "SPECIALITY", referencedColumnName = "TYPE")
     @ManyToOne(optional = false)
     private Speciality speciality;
+    @JoinColumn(name = "AUTHOR", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Users author;
 
     public Researches() {
     }
@@ -85,11 +82,10 @@ public class Researches implements Serializable {
         this.id = id;
     }
 
-    public Researches(Long id, String title, String description, String author, Date date, int views, String conclusions) {
+    public Researches(Long id, String title, String description, Date date, int views, String conclusions) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.author = author;
         this.date = date;
         this.views = views;
         this.conclusions = conclusions;
@@ -117,14 +113,6 @@ public class Researches implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public Date getDate() {
@@ -157,6 +145,14 @@ public class Researches implements Serializable {
 
     public void setSpeciality(Speciality speciality) {
         this.speciality = speciality;
+    }
+
+    public Users getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override

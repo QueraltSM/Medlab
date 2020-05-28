@@ -32,13 +32,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Clinicalcases.findAll", query = "SELECT c FROM Clinicalcases c"),
     @NamedQuery(name = "Clinicalcases.findById", query = "SELECT c FROM Clinicalcases c WHERE c.id = :id"),
-    @NamedQuery(name = "Clinicalcases.findByTitle", query = "SELECT c FROM Clinicalcases c WHERE c.title = :title"),
-    @NamedQuery(name = "Clinicalcases.findByAuthor", query = "SELECT c FROM Clinicalcases c WHERE c.author = :author"),
+    @NamedQuery(name = "Clinicalcases.findByDate", query = "SELECT c FROM Clinicalcases c WHERE c.date = :date"),
     @NamedQuery(name = "Clinicalcases.findByDescription", query = "SELECT c FROM Clinicalcases c WHERE c.description = :description"),
+    @NamedQuery(name = "Clinicalcases.findByExamination", query = "SELECT c FROM Clinicalcases c WHERE c.examination = :examination"),
     @NamedQuery(name = "Clinicalcases.findByHistory", query = "SELECT c FROM Clinicalcases c WHERE c.history = :history"),
     @NamedQuery(name = "Clinicalcases.findByQuestions", query = "SELECT c FROM Clinicalcases c WHERE c.questions = :questions"),
-    @NamedQuery(name = "Clinicalcases.findByExamination", query = "SELECT c FROM Clinicalcases c WHERE c.examination = :examination"),
-    @NamedQuery(name = "Clinicalcases.findByDate", query = "SELECT c FROM Clinicalcases c WHERE c.date = :date"),
+    @NamedQuery(name = "Clinicalcases.findByTitle", query = "SELECT c FROM Clinicalcases c WHERE c.title = :title"),
     @NamedQuery(name = "Clinicalcases.findByViews", query = "SELECT c FROM Clinicalcases c WHERE c.views = :views")})
 public class Clinicalcases implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -47,66 +46,38 @@ public class Clinicalcases implements Serializable {
     @NotNull
     @Column(name = "ID")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "TITLE")
-    private String title;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 60)
-    @Column(name = "AUTHOR")
-    private String author;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 700)
-    @Column(name = "DESCRIPTION")
-    private String description;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 700)
-    @Column(name = "HISTORY")
-    private String history;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 700)
-    @Column(name = "QUESTIONS")
-    private String questions;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 700)
-    @Column(name = "EXAMINATION")
-    private String examination;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @Basic(optional = false)
-    @NotNull
+    @Size(max = 255)
+    @Column(name = "DESCRIPTION")
+    private String description;
+    @Size(max = 255)
+    @Column(name = "EXAMINATION")
+    private String examination;
+    @Size(max = 255)
+    @Column(name = "HISTORY")
+    private String history;
+    @Size(max = 255)
+    @Column(name = "QUESTIONS")
+    private String questions;
+    @Size(max = 255)
+    @Column(name = "TITLE")
+    private String title;
     @Column(name = "VIEWS")
-    private int views;
+    private Integer views;
     @JoinColumn(name = "SPECIALITY", referencedColumnName = "TYPE")
     @ManyToOne(optional = false)
     private Speciality speciality;
+    @JoinColumn(name = "AUTHOR", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private Users author;
 
     public Clinicalcases() {
     }
 
     public Clinicalcases(Long id) {
         this.id = id;
-    }
-
-    public Clinicalcases(Long id, String title, String author, String description, String history, String questions, String examination, Date date, int views) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.history = history;
-        this.questions = questions;
-        this.examination = examination;
-        this.date = date;
-        this.views = views;
     }
 
     public Long getId() {
@@ -117,20 +88,12 @@ public class Clinicalcases implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public Date getDate() {
+        return date;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getDescription() {
@@ -139,6 +102,14 @@ public class Clinicalcases implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getExamination() {
+        return examination;
+    }
+
+    public void setExamination(String examination) {
+        this.examination = examination;
     }
 
     public String getHistory() {
@@ -157,27 +128,19 @@ public class Clinicalcases implements Serializable {
         this.questions = questions;
     }
 
-    public String getExamination() {
-        return examination;
+    public String getTitle() {
+        return title;
     }
 
-    public void setExamination(String examination) {
-        this.examination = examination;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public int getViews() {
+    public Integer getViews() {
         return views;
     }
 
-    public void setViews(int views) {
+    public void setViews(Integer views) {
         this.views = views;
     }
 
@@ -187,6 +150,14 @@ public class Clinicalcases implements Serializable {
 
     public void setSpeciality(Speciality speciality) {
         this.speciality = speciality;
+    }
+
+    public Users getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Users author) {
+        this.author = author;
     }
 
     @Override

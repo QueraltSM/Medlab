@@ -8,10 +8,11 @@ package controllers.Researches;
 import controllers.FrontCommand;
 import ejbs.LogFacade;
 import ejbs.ResearchesFacade;
+import ejbs.UsersFacade;
 import entities.Log;
 import entities.Researches;
 import entities.Speciality;
-import java.io.File;
+import entities.Users;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -43,7 +44,6 @@ public class ModifyResearchesCommand extends FrontCommand {
             researches.setDescription(description);
             researches.setSpeciality(new Speciality(request.getParameter("speciality")));
             researches.setDate(new Date());
-            researches.setAuthor((String)session.getAttribute("email"));
             researches.setConclusions(conclusions);
             researchesDB.updateResearch(researches);
         } catch (UnsupportedEncodingException ex) {
