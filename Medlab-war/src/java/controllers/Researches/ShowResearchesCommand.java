@@ -38,7 +38,7 @@ public class ShowResearchesCommand extends FrontCommand {
     }
         
     private void getAllResearches() {
-        List<Researches> researches = researchesDB.findAll();
+        List<Researches> researches = researchesDB.orderbyRecent();
         if (researches.isEmpty()) {
             request.setAttribute("error", "There is no researches yet");
         }

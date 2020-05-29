@@ -1,5 +1,5 @@
-<%-- <%@page import="ejbs.CartBeanRemote"%>
-<%@page import="javax.naming.InitialContext"%> --%>
+<%@page import="entities.Cartitems"%>
+<%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,11 +31,13 @@
                     <li><a class="menu_a" href="FrontController?command=ShowBooksCommand">BOOKS</a></li>
                     <li><a class="menu_a" onclick="javascript:show_hide_action_box();"><i id="action_box_icon" class="fa fa-plus"></i></a></li>
                     <li><a class="menu_a" onclick="javascript:show_hide_filter_box();"><i id="search_box_icon" class="fa fa-search"></i></a></li>
-                    <%-- <% if (session.getAttribute("usertype") != null && session.getAttribute("usertype").equals("doctor")) { %>
-                    <li><a class="menu_a" href="viewCart.jsp">
-                    <label><%CartBeanRemote cart = (CartBeanRemote) session.getAttribute("Cart");
-                        if (cart != null) {%><%=cart.getCart().size()%><%} else {%>0<%}%>
-                    </label><i class="fas fa-shopping-cart"></i></a></li><% } %> --%>
+                    <% if (session.getAttribute("usertype").equals("doctor")) {%>
+                    <li><a class="menu_a" href="FrontController?command=ShowCartCommand">
+                    <label><%List<Cartitems> cart = (List<Cartitems>) session.getAttribute("Cart");
+                    if (cart.isEmpty()) {%>0
+                    <%} else {%><%=cart.size()%>
+                    <%}%></label><i class="fas fa-shopping-cart"></i></a></li>
+                  
                 </ul>
             </div> 
         </div>
@@ -92,6 +94,7 @@
                     <% } %>
                     <% if (session.getAttribute("usertype") != null && session.getAttribute("usertype").equals("admin")) { %>
                 <a href="addNews.jsp" style="padding-right: 10px;padding-left: 10px;">Create news</a>
+                <a href="addBook.jsp" style="padding-right: 10px;padding-left: 10px;">Register book</a>
                 <a href="log.jsp" class="menu_action" style="padding-right: 10px;padding-left: 10px;" > View log</a>
                 <a href="setProgramaticTimer.jsp" class="menu_action" style="border-left: 1px solid #000000;padding-left: 10px;padding-right: 10px;">Set timer</a>
                 <a href="viewStats.jsp" class="menu_action"  style="padding-right: 10px;padding-left: 10px;"> View stats</a>
@@ -104,7 +107,8 @@
         <div class="error_box" id="error_box">        
             <label><%=request.getAttribute("error")%></label>
         </div>    
-        <% }%>
+        <% }
+        }%>
         <script src="js/header_box.js"></script>
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>

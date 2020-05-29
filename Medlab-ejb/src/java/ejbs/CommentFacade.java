@@ -5,6 +5,7 @@
  */
 package ejbs;
 
+import entities.Book;
 import entities.Comment;
 import entities.Log;
 import java.util.List;
@@ -33,6 +34,13 @@ public class CommentFacade extends AbstractFacade<Comment> {
         super(Comment.class);
     }
 
+    public void updateVisits(long id) {
+        setLogTrace("CommentFacade::updateVisits");
+        Book book = em.find(Book.class, id);
+        book.setViews(book.getViews()+1);
+        em.merge(book);
+    }
+        
     public List<Comment> findCommentsbyId(long id) {
         setLogTrace("CommentFacade::findCommentsbyId");
         return em.createNamedQuery("Comment.findById")

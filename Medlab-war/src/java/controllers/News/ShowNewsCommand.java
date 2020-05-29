@@ -38,7 +38,7 @@ public class ShowNewsCommand extends FrontCommand {
     }
         
     private void getAllNews() {
-        List<News> news = newsDB.findAll();
+        List<News> news = newsDB.orderbyRecent();
         if (news.isEmpty()) {
             request.setAttribute("error", "There is no news yet");
         }

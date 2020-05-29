@@ -75,7 +75,13 @@ public class DiscussionsFacade extends AbstractFacade<Discussions> {
         .setParameter("views", findDiscussionsbyID(id).get(0).getViews()+1)
         .executeUpdate();
     }
-    
+
+    public List<Discussions> orderbyRecent() {
+        setLogTrace("DiscussionsFacade::orderbyRecent");
+        return em.createQuery("SELECT n FROM Discussions n ORDER BY n.date DESC")
+        .getResultList();
+    }
+        
     public List<Discussions> orderbyViews() {
         setLogTrace("DiscussionsFacade::orderbyViews");
         return em.createQuery("SELECT n FROM Discussions n ORDER BY n.views DESC")

@@ -68,7 +68,13 @@ public class NewsFacade extends AbstractFacade<News> {
         .setParameter("views", findNewsbyID(id).get(0).getViews()+1)
         .executeUpdate();
     }
-    
+
+    public List<News> orderbyRecent() {
+        setLogTrace("NewsFacade::orderbyRecent");
+        return em.createQuery("SELECT n FROM News n ORDER BY n.date DESC")
+        .getResultList();
+    }
+        
     public List<News> orderbyViews() {
         setLogTrace("NewsFacade::orderbyViews");
         return em.createQuery("SELECT n FROM News n ORDER BY n.views DESC")

@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers.Discussions;
+package controllers.Books;
 
 import controllers.FrontCommand;
 import ejbs.LogFacade;
-import ejbs.DiscussionsFacade;
+import ejbs.BookFacade;
 import entities.Log;
-import entities.Discussions;
+import entities.Book;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,25 +24,25 @@ import javax.servlet.http.HttpSession;
  *
  * @author QSM
  */
-public class ShowDiscussionsCommand extends FrontCommand {
+public class ShowBooksCommand extends FrontCommand {
     private HttpSession session;
-    private DiscussionsFacade discussionsDB;
+    private BookFacade booksDB;
     private LogFacade log;
 
-    public void getSortedDiscussions() {
-        List<Discussions> discussions = discussionsDB.orderbyViews();
-        if (discussions.isEmpty()) {
-            request.setAttribute("error", "There is no most viewed discussions yet");
+    public void getSortedBooks() {
+        List<Book> books = booksDB.orderbyViews();
+        if (books.isEmpty()) {
+            request.setAttribute("error", "There is no most viewed books yet");
         }
-        request.setAttribute("all_sorted_discussions", discussions);
+        request.setAttribute("all_sorted_books", books);
     }
         
-    private void getAllDiscussions() {
-        List<Discussions> discussions = discussionsDB.orderbyRecent();
-        if (discussions.isEmpty()) {
-            request.setAttribute("error", "There is no discussions yet");
+    private void getAllBooks() {
+        List<Book> books = booksDB.orderbyRecent();
+        if (books.isEmpty()) {
+            request.setAttribute("error", "There is no books yet");
         }
-        request.setAttribute("all_discussions", discussions);
+        request.setAttribute("all_books", books);
     }
 
     @Override
@@ -55,25 +55,25 @@ public class ShowDiscussionsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
-            log1.setEjbs("ShowDiscussionsCommand:process()");
+            log1.setEjbs("ShowBooksCommand:process()");
             log.create(log1);
             session = request.getSession();
-            discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");
-            getAllDiscussions();
+            booksDB = (BookFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/BookFacade!ejbs.BookFacade");
+            getAllBooks();
             
             if (request.getParameter("sort") != null && request.getParameter("sort").equals("viewed")) {
-                getSortedDiscussions();
+                getSortedBooks();
             }
             
-            session.setAttribute("search_command", "SearchDiscussionsCommand");
+            session.setAttribute("search_command", "SearchBooksCommand");
             try {
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("discussions.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("books.jsp");
                 requestDispatcher.forward(request, response);
             } catch (ServletException | IOException ex) {
-                Logger.getLogger(ShowDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ShowBooksCommand.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NamingException ex) {
-            Logger.getLogger(ShowDiscussionsCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShowBooksCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

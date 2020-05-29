@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,6 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Users.findByFirstname", query = "SELECT u FROM Users u WHERE u.firstname = :firstname"),
     @NamedQuery(name = "Users.findByLastname", query = "SELECT u FROM Users u WHERE u.lastname = :lastname")})
 public class Users implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userid")
+    private Collection<Cart> cartCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private Collection<Discussions> discussionsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
@@ -184,5 +187,14 @@ public class Users implements Serializable {
 
     public void setDiscussionsCollection(Collection<Discussions> discussionsCollection) {
         this.discussionsCollection = discussionsCollection;
+    }
+
+    @XmlTransient
+    public Collection<Cart> getCartCollection() {
+        return cartCollection;
+    }
+
+    public void setCartCollection(Collection<Cart> cartCollection) {
+        this.cartCollection = cartCollection;
     }
 }

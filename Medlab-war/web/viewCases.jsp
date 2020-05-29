@@ -30,7 +30,6 @@
             <div id="post-header" class="page-header">
                 <%  session.setAttribute("old_url", request.getQueryString());
                     Clinicalcases clinical_case = (Clinicalcases) request.getAttribute("cases");%>
-                <div class="background-img" style="background-color: white;"></div>
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">

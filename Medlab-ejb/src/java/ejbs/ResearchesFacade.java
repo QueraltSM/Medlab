@@ -85,6 +85,16 @@ public class ResearchesFacade extends AbstractFacade<Researches> {
         research.setViews(research.getViews()+1);
         em.merge(research);
     }
+
+    public List<Researches> orderbyRecent() {
+        setLogTrace("ResearchesFacade::orderbyRecent");
+        cb = em.getCriteriaBuilder();
+        query = cb.createQuery(Researches.class);
+        root = query.from(Researches.class);
+        query.select(root)
+                .orderBy(cb.desc(root.get("date")));
+        return em.createQuery(query).getResultList();
+    }
     
     public List<Researches> orderbyViews() {
         setLogTrace("ResearchesFacade::orderbyViews");

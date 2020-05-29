@@ -396,9 +396,9 @@ and open the template in the editor.
  .page-header {
      position: relative;
      margin: 0;
-	 padding-top: 60px;
-     padding-bottom: 60px;
-     background-color: #fbfbfd;
+     padding-top: 60px;
+     padding-bottom: 50px;
+     background-color: black;
      border-bottom: 2px solid #F4f4f9;
 }
  .page-header .background-img {
@@ -421,7 +421,7 @@ and open the template in the editor.
      background-image: linear-gradient(to top, rgba(33, 38, 49, 0.3) 0%, transparent 100%);
 }
  #post-header.page-header {
-     padding-top: 120px;
+     padding-top: 50px;
 }
  .page-header h1 {
      text-transform: capitalize;

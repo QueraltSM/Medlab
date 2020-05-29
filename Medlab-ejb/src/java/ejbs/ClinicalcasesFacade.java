@@ -86,7 +86,17 @@ public class ClinicalcasesFacade extends AbstractFacade<Clinicalcases> {
         clinical_case.setViews(clinical_case.getViews()+1);
         em.merge(clinical_case);
     }
-    
+
+    public List<Clinicalcases> orderbyRecent() {
+        setLogTrace("ClinicalcasesFacade::orderbyRecent");
+        cb = em.getCriteriaBuilder();
+        query = cb.createQuery(Clinicalcases.class);
+        root = query.from(Clinicalcases.class);
+        query.select(root)
+                .orderBy(cb.desc(root.get("date")));
+        return em.createQuery(query).getResultList();
+    }
+        
     public List<Clinicalcases> orderbyViews() {
         setLogTrace("ClinicalcasesFacade::orderbyViews");
         cb = em.getCriteriaBuilder();

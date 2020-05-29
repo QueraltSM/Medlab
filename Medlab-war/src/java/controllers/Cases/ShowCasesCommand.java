@@ -38,7 +38,7 @@ public class ShowCasesCommand extends FrontCommand {
     }
         
     private void getAllCases() {
-        List<Clinicalcases> cases = casesDB.findAll();
+        List<Clinicalcases> cases = casesDB.orderbyRecent();
         if (cases.isEmpty()) {
             request.setAttribute("error", "There is no cases yet");
         }

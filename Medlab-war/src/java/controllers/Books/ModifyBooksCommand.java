@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers.Researches;
+package controllers.Books;
 
 import controllers.FrontCommand;
 import ejbs.LogFacade;
-import ejbs.ResearchesFacade;
+import ejbs.BookFacade;
 import entities.Log;
-import entities.Researches;
+import entities.Book;
 import entities.Speciality;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -26,26 +26,29 @@ import javax.servlet.http.HttpSession;
  *
  * @author QSM
  */
-public class ModifyResearchesCommand extends FrontCommand {
+public class ModifyBooksCommand extends FrontCommand {
     private LogFacade log;
-    private ResearchesFacade researchesDB;
+    private BookFacade booksDB;
     private HttpSession session;
     
-    private void modifyCase() {
+    private void modifyBook() {
         try {
             String title = new String(request.getParameter("title").getBytes("ISO8859_1"), "UTF-8");
             String description = new String(request.getParameter("description").getBytes("ISO8859_1"), "UTF-8");
-            String conclusions = new String(request.getParameter("conclusions").getBytes("ISO8859_1"), "UTF-8");
+            String author = new String(request.getParameter("author").getBytes("ISO8859_1"), "UTF-8");
+            double price = Double.parseDouble((String)request.getParameter("price"));
+            int stock = Integer.parseInt(((String)request.getParameter("stock")));
             long id = Long.parseLong((String) request.getParameter("id"));
-            Researches researches = researchesDB.find(id);
-            researches.setTitle(title);
-            researches.setDescription(description);
-            researches.setSpeciality(new Speciality(request.getParameter("speciality")));
-            researches.setDate(new Date());
-            researches.setConclusions(conclusions);
-            researchesDB.updateResearch(researches);
+            Book books = booksDB.find(id);
+            books.setTitle(title);
+            books.setDescription(description);
+            books.setSpeciality(new Speciality(request.getParameter("speciality")));
+            books.setDate(new Date());
+            books.setStock(stock);
+            books.setPrice(price);
+            booksDB.updateBook(books);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ModifyResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModifyBooksCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -60,21 +63,21 @@ public class ModifyResearchesCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
-            log1.setEjbs("ModifyResearchesCommand:process()");
+            log1.setEjbs("ModifyBooksCommand:process()");
             log.create(log1);
-            researchesDB = (ResearchesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ResearchesFacade!ejbs.ResearchesFacade");
-            modifyCase();
-            ResearchesDetailsCommand command = new ResearchesDetailsCommand();
+            booksDB = (BookFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/BookFacade!ejbs.BookFacade");
+            modifyBook();
+            BooksDetailsCommand command = new BooksDetailsCommand();
             command.init(context, request, response);
             command.process();
             try {
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewResearches.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewBooks.jsp");
                 requestDispatcher.forward(request, response);
             } catch (ServletException | IOException ex) {
-                Logger.getLogger(ModifyResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ModifyBooksCommand.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NamingException ex) {
-            Logger.getLogger(ModifyResearchesCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModifyBooksCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
