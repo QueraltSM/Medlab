@@ -111,9 +111,7 @@
                 <a href="addNews.jsp" style="padding-right: 10px;padding-left: 10px;">Create news</a>
                 <a href="addBook.jsp" style="padding-right: 10px;padding-left: 10px;">Register book</a>
                 <a href="FrontController?command=ShowLogCommand" class="menu_action" style="padding-right: 10px;padding-left: 10px;" > View log</a>
-                <a href="setProgramaticTimer.jsp" class="menu_action" style="border-left: 1px solid #000000;padding-left: 10px;padding-right: 10px;">Set timer</a>
-                <a href="viewStats.jsp" class="menu_action"  style="padding-right: 10px;padding-left: 10px;"> View stats</a>
-                <a href="viewStatefulContents.jsp" class="menu_action" style="border-left: 1px solid #000000;padding-left: 10px;padding-right: 10px;"> View stateful beans content</a>
+                <a href="FrontController?command=ShowLoginStatsCommand" class="menu_action"  style="padding-right: 10px;padding-left: 10px;"> View stats</a>
                 <% } %>
             </div>
         </div>

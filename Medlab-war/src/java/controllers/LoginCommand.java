@@ -87,7 +87,8 @@ public class LoginCommand extends FrontCommand {
                     id1 = login_stats.findAll().size()+1;
                 }
                 loginstats1.setId(id1);
-                loginstats1.setEmail(request.getParameter("email"));
+                Users user = usersDB.findUserbyID(Long.parseLong(String.valueOf(session.getAttribute("userID")))).get(0);
+                loginstats1.setUsers(user);
                 loginstats1.setDate(new Date());
                 login_stats.create(loginstats1);
                 session.setAttribute("logged", "true");
