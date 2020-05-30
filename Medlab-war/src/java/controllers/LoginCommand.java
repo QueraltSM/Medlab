@@ -11,15 +11,11 @@ import ejbs.CartitemsFacade;
 import ejbs.LogFacade;
 import ejbs.LoginstatsFacade;
 import ejbs.UsersFacade;
-import entities.Cart;
-import entities.Cartitems;
 import entities.Log;
 import entities.Loginstats;
 import entities.Users;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -40,17 +36,6 @@ public class LoginCommand extends FrontCommand {
     private LoginstatsFacade login_stats;
     private CartitemsFacade cartitemsDB;
     private CartFacade cartsDB;
-    
-    private void setCart() {
-        long userID = Long.parseLong(String.valueOf(session.getAttribute("userID")));
-        Users user = usersDB.find(userID);
-        List <Cart> cart = cartsDB.findCartByUserID(user);
-        List<Cartitems> items = new ArrayList();
-        if (!cart.isEmpty()) {
-            items = cartitemsDB.findCartitemsByCartID(cart.get(0));
-        }
-        session.setAttribute("Cart", items);
-    }
     
     @SuppressWarnings("unchecked")
     private boolean userExists() {
@@ -89,6 +74,7 @@ public class LoginCommand extends FrontCommand {
             }
             log1.setId(id);
             log1.setEjbs("LoginCommand:process()");
+            log1.setDate(new Date());
             log.create(log1);
             session = request.getSession(true);
             usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
@@ -105,8 +91,6 @@ public class LoginCommand extends FrontCommand {
                 loginstats1.setDate(new Date());
                 login_stats.create(loginstats1);
                 session.setAttribute("logged", "true");
-                session.setAttribute("email", request.getParameter("email"));
-                setCart();
                 ShowNewsCommand command = new ShowNewsCommand();
                 command.init(context, request, response);
                 command.process();

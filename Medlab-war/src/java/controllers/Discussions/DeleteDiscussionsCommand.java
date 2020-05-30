@@ -10,6 +10,7 @@ import ejbs.LogFacade;
 import ejbs.DiscussionsFacade;
 import entities.Log;
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -40,6 +41,7 @@ public class DeleteDiscussionsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("DeleteDiscussionsCommand:process()");
             log.create(log1);
             discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");

@@ -5,8 +5,6 @@
  */
 package controllers.Carts;
 
-import controllers.Books.ModifyBooksCommand;
-import controllers.Books.ShowBooksCommand;
 import controllers.FrontCommand;
 import ejbs.LogFacade;
 import ejbs.CartFacade;
@@ -16,14 +14,12 @@ import entities.Cart;
 import entities.Cartitems;
 import entities.Log;
 import entities.Users;
-import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -149,6 +145,7 @@ public class ModifyCartCommand extends FrontCommand {
                 id = log.findAll().size() + 1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("ModifyCartsCommand:process()");
             log.create(log1);
             cartsDB = (CartFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartFacade!ejbs.CartFacade");

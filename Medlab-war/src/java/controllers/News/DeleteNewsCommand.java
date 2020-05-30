@@ -10,6 +10,7 @@ import ejbs.LogFacade;
 import ejbs.NewsFacade;
 import entities.Log;
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -40,6 +41,7 @@ public class DeleteNewsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("DeleteNewsCommand:process()");
             log.create(log1);
             newsDB = (NewsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsFacade!ejbs.NewsFacade");

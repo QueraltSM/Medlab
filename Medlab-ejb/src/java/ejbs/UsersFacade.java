@@ -7,6 +7,7 @@ package ejbs;
 
 import entities.Log;
 import entities.Users;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -64,6 +65,7 @@ public class UsersFacade extends AbstractFacade<Users> {
         }
         log1.setId(id);
         log1.setEjbs(ejbs);
+        log1.setDate(new Date());
         log.create(log1);
     }
 }

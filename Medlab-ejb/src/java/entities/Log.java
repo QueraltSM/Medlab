@@ -6,6 +6,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -27,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Log.findAll", query = "SELECT l FROM Log l"),
     @NamedQuery(name = "Log.findById", query = "SELECT l FROM Log l WHERE l.id = :id"),
-    @NamedQuery(name = "Log.findByEjbs", query = "SELECT l FROM Log l WHERE l.ejbs = :ejbs")})
+    @NamedQuery(name = "Log.findByEjbs", query = "SELECT l FROM Log l WHERE l.ejbs = :ejbs"),
+    @NamedQuery(name = "Log.findByDate", query = "SELECT l FROM Log l WHERE l.date = :date")})
 public class Log implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -35,22 +39,18 @@ public class Log implements Serializable {
     @NotNull
     @Column(name = "ID")
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 150)
+    @Size(max = 255)
     @Column(name = "EJBS")
     private String ejbs;
+    @Column(name = "DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
     public Log() {
     }
 
     public Log(Long id) {
         this.id = id;
-    }
-
-    public Log(Long id, String ejbs) {
-        this.id = id;
-        this.ejbs = ejbs;
     }
 
     public Long getId() {
@@ -67,6 +67,14 @@ public class Log implements Serializable {
 
     public void setEjbs(String ejbs) {
         this.ejbs = ejbs;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override

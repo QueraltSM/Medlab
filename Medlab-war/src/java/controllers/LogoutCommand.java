@@ -8,6 +8,7 @@ package controllers;
 import ejbs.LogFacade;
 import entities.Log;
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -35,6 +36,7 @@ public class LogoutCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("LogoutCommand:process()");
             log.create(log1);
             session = request.getSession(true);

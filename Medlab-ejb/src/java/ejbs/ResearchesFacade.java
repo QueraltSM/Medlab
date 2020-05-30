@@ -9,6 +9,7 @@ import entities.Log;
 import entities.Researches;
 import entities.Speciality;
 import entities.Users;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -131,6 +132,7 @@ public class ResearchesFacade extends AbstractFacade<Researches> {
         }
         log1.setId(id);
         log1.setEjbs(ejbs);
+        log1.setDate(new Date());
         log.create(log1);
     }
 }

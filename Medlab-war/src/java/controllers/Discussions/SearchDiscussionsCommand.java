@@ -13,6 +13,7 @@ import entities.Discussions;
 import entities.Speciality;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +67,7 @@ public class SearchDiscussionsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("SearchDiscussionsCommand:process()");
             log.create(log1);
             discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");

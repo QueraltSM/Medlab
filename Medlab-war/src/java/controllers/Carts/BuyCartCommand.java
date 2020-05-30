@@ -5,18 +5,15 @@
  */
 package controllers.Carts;
 
-import controllers.Books.ShowBooksCommand;
 import controllers.FrontCommand;
 import ejbs.LogFacade;
 import ejbs.CartFacade;
 import ejbs.CartitemsFacade;
 import ejbs.UsersFacade;
 import entities.Cart;
-import entities.Cartitems;
 import entities.Log;
 import entities.Users;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -27,54 +24,22 @@ import javax.servlet.http.HttpSession;
  *
  * @author QSM
  */
-public class AddCartCommand extends FrontCommand {
+public class BuyCartCommand extends FrontCommand {
     private LogFacade log;
     private CartFacade cartsDB;
     private HttpSession session;
     private UsersFacade usersDB;
     private CartitemsFacade cartitemsDB;
-     
-    private void storeBook() {
+
+    private void buyCart() {
         long userID = Long.parseLong(String.valueOf(session.getAttribute("userID")));
         Users user = usersDB.find(userID);
         Cart cart = cartsDB.findCartByUserID(user).get(0);
-        long bookID = Long.parseLong(String.valueOf(request.getParameter("id")));
-        long itemsID = cartitemsDB.findAll().size()+1;
-        
-        Cartitems items = new Cartitems();
-        items.setBookid(bookID);
-        items.setCartid(cart);
-        
-        boolean entered = false;
-        
-        for (Cartitems c : cartitemsDB.findAll()) {
-            if (c.getBookid() == bookID && c.getCartid().getId().equals(cart.getId())) {
-                items.setId(c.getId());
-                items.setQuantity(c.getQuantity()+1);
-                cartitemsDB.edit(items);
-                entered = true;
-            }
-        }
-        if (!entered) {
-            items.setId(itemsID);
-            items.setQuantity(1);
-            cartitemsDB.create(items);
-        }
+        cartitemsDB.findCartitemsByCartID(cart).stream().forEach((c) -> {
+            cartitemsDB.remove(c);
+        });
     }
-    
-    private void createCart() {
-        long userID = Long.parseLong(String.valueOf(session.getAttribute("userID")));
-        Users user = usersDB.find(userID);
-        List<Cart> carts = cartsDB.findCartByUserID(user);
-        if (carts.isEmpty()) {
-            Cart cart = new Cart();
-            long cartID = cartsDB.findAll().size()+1;
-            cart.setId(cartID);
-            cart.setUserid(user);
-            cartsDB.create(cart);
-        }
-    }
-    
+
     @Override
     public void process() {
         try {
@@ -83,22 +48,21 @@ public class AddCartCommand extends FrontCommand {
             Log log1 = new Log();
             long id = 1;
             if (!log.findAll().isEmpty()) {
-               id = log.findAll().size()+1;
+                id = log.findAll().size() + 1;
             }
             log1.setId(id);
             log1.setDate(new Date());
-            log1.setEjbs("AddCartsCommand:process()");
+            log1.setEjbs("BuyCartCommand:process()");
             log.create(log1);
             cartsDB = (CartFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartFacade!ejbs.CartFacade");
             usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
             cartitemsDB = (CartitemsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartitemsFacade!ejbs.CartitemsFacade");
-            createCart();
-            storeBook();
-            ShowBooksCommand command = new ShowBooksCommand();
+            buyCart();
+            ShowCartCommand command = new ShowCartCommand();
             command.init(context, request, response);
             command.process();
         } catch (NamingException ex) {
-            Logger.getLogger(AddCartCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BuyCartCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

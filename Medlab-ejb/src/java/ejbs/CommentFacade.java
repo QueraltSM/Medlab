@@ -8,6 +8,7 @@ package ejbs;
 import entities.Book;
 import entities.Comment;
 import entities.Log;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -89,6 +90,7 @@ public class CommentFacade extends AbstractFacade<Comment> {
         }
         log1.setId(id);
         log1.setEjbs(ejbs);
+        log1.setDate(new Date());
         log.create(log1);
     }
 }

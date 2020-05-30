@@ -8,11 +8,9 @@ package controllers.Discussions;
 import controllers.FrontCommand;
 import ejbs.LogFacade;
 import ejbs.DiscussionsFacade;
-import ejbs.UsersFacade;
 import entities.Log;
 import entities.Discussions;
 import entities.Speciality;
-import entities.Users;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -60,6 +58,7 @@ public class ModifyDiscussionsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("ModifyDiscussionsCommand:process()");
             log.create(log1);
             discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");

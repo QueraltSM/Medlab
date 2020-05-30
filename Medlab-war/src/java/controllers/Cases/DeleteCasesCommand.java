@@ -10,6 +10,7 @@ import ejbs.LogFacade;
 import ejbs.ClinicalcasesFacade;
 import entities.Log;
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -40,6 +41,7 @@ public class DeleteCasesCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("DeleteCasesCommand:process()");
             log.create(log1);
             casesDB = (ClinicalcasesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ClinicalcasesFacade!ejbs.ClinicalcasesFacade");

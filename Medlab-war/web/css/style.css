@@ -876,3 +876,36 @@ and open the template in the editor.
 .comment-pdf:hover {
     color: #1F81C6;
 }
+
+table {
+    position: absolute;
+    left: 0; right: 0;
+    margin: auto;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  text-align: center; 
+  vertical-align: middle;
+}
+table#t01 {
+  width: 100%;    
+  background-color: #f1f1c1;
+}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: black;
+  color: white;
+  text-align: center; 
+  vertical-align: middle;
+}
+
+tr:nth-child(even){background-color:white;}
+
+tr:hover {background-color: #ddd;}

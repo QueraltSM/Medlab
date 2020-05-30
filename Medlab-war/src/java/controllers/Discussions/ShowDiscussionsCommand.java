@@ -11,6 +11,7 @@ import ejbs.DiscussionsFacade;
 import entities.Log;
 import entities.Discussions;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,6 +56,7 @@ public class ShowDiscussionsCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("ShowDiscussionsCommand:process()");
             log.create(log1);
             session = request.getSession();

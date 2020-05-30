@@ -11,6 +11,7 @@ import ejbs.BookFacade;
 import entities.Log;
 import entities.Book;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,6 +56,7 @@ public class ShowBooksCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("ShowBooksCommand:process()");
             log.create(log1);
             session = request.getSession();

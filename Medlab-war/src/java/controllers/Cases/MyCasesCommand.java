@@ -12,6 +12,7 @@ import ejbs.UsersFacade;
 import entities.Log;
 import entities.Users;
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -46,6 +47,7 @@ public class MyCasesCommand extends FrontCommand {
                id = log.findAll().size()+1;
             }
             log1.setId(id);
+            log1.setDate(new Date());
             log1.setEjbs("MyCasesCommand:process()");
             log.create(log1);
             session = request.getSession(true);

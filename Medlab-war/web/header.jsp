@@ -1,3 +1,9 @@
+<%@page import="ejbs.CartitemsFacade"%>
+<%@page import="ejbs.CartFacade"%>
+<%@page import="ejbs.UsersFacade"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="entities.Cart"%>
+<%@page import="entities.Users"%>
 <%@page import="entities.Cartitems"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -31,17 +37,26 @@
                     <li><a class="menu_a" href="FrontController?command=ShowBooksCommand">BOOKS</a></li>
                     <li><a class="menu_a" onclick="javascript:show_hide_action_box();"><i id="action_box_icon" class="fa fa-plus"></i></a></li>
                     <li><a class="menu_a" onclick="javascript:show_hide_filter_box();"><i id="search_box_icon" class="fa fa-search"></i></a></li>
-                    <% if (session.getAttribute("usertype").equals("doctor")) {%>
+                            <% if (session.getAttribute("usertype").equals("doctor")) {%>
                     <li><a class="menu_a" href="FrontController?command=ShowCartCommand">
-                    <label><%List<Cartitems> cart = (List<Cartitems>) session.getAttribute("Cart");
-                    if (cart.isEmpty()) {%>0
-                    <%} else {%><%=cart.size()%>
-                    <%}%></label><i class="fas fa-shopping-cart"></i></a></li>
-                  
+                            <label>
+                                <%
+                                    UsersFacade usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
+                                    CartFacade cartsDB = (CartFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartFacade!ejbs.CartFacade");
+                                    Users user = usersDB.find(Long.parseLong(String.valueOf(session.getAttribute("userID"))));
+                                    List<Cart> user_cart = cartsDB.findCartByUserID(user);
+                                    CartitemsFacade cartitemsDB = (CartitemsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartitemsFacade!ejbs.CartitemsFacade");
+                                    List<Cartitems> cart = cartitemsDB.findCartitemsByCartID(user_cart.get(0));
+                                    if (cart.isEmpty()) {%>0
+                                <%} else {%><%=cart.size()%>
+                                <%}%></label><i class="fas fa-shopping-cart"></i></a></li>
+
                 </ul>
+                <% } %>
             </div> 
+
         </div>
-        <% } %>
+
         <% if (session.getAttribute("logged") == null || session.getAttribute("logged").equals("false")) { %>
         <div class="menu__holder" style ="padding-top:20px;">
             <div class="menu_options">
@@ -95,11 +110,10 @@
                     <% if (session.getAttribute("usertype") != null && session.getAttribute("usertype").equals("admin")) { %>
                 <a href="addNews.jsp" style="padding-right: 10px;padding-left: 10px;">Create news</a>
                 <a href="addBook.jsp" style="padding-right: 10px;padding-left: 10px;">Register book</a>
-                <a href="log.jsp" class="menu_action" style="padding-right: 10px;padding-left: 10px;" > View log</a>
+                <a href="FrontController?command=ShowLogCommand" class="menu_action" style="padding-right: 10px;padding-left: 10px;" > View log</a>
                 <a href="setProgramaticTimer.jsp" class="menu_action" style="border-left: 1px solid #000000;padding-left: 10px;padding-right: 10px;">Set timer</a>
                 <a href="viewStats.jsp" class="menu_action"  style="padding-right: 10px;padding-left: 10px;"> View stats</a>
                 <a href="viewStatefulContents.jsp" class="menu_action" style="border-left: 1px solid #000000;padding-left: 10px;padding-right: 10px;"> View stateful beans content</a>
-
                 <% } %>
             </div>
         </div>
@@ -108,7 +122,7 @@
             <label><%=request.getAttribute("error")%></label>
         </div>    
         <% }
-        }%>
+            }%>
         <script src="js/header_box.js"></script>
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>

@@ -70,6 +70,7 @@ public class AddBooksCommand extends FrontCommand {
             }
             log1.setId(id);
             log1.setEjbs("AddBooksCommand:process()");
+            log1.setDate(new Date());
             log.create(log1);
             booksDB = (BookFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/BookFacade!ejbs.BookFacade");
             usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");

@@ -9,6 +9,7 @@ import entities.Log;
 import entities.Clinicalcases;
 import entities.Speciality;
 import entities.Users;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -132,6 +133,7 @@ public class ClinicalcasesFacade extends AbstractFacade<Clinicalcases> {
         }
         log1.setId(id);
         log1.setEjbs(ejbs);
+        log1.setDate(new Date());
         log.create(log1);
     }
 }

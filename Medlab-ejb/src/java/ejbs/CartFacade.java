@@ -9,6 +9,7 @@ import entities.Cart;
 import entities.Cartitems;
 import entities.Log;
 import entities.Users;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -50,6 +51,7 @@ public class CartFacade extends AbstractFacade<Cart> {
         }
         log1.setId(id);
         log1.setEjbs(ejbs);
+        log1.setDate(new Date());
         log.create(log1);
     }       
     

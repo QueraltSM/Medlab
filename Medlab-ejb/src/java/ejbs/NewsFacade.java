@@ -8,6 +8,7 @@ package ejbs;
 import entities.Log;
 import entities.News;
 import entities.Speciality;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -121,6 +122,7 @@ public class NewsFacade extends AbstractFacade<News> {
         }
         log1.setId(id);
         log1.setEjbs(ejbs);
+        log1.setDate(new Date());
         log.create(log1);
     }
 }
