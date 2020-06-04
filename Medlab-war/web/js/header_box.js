@@ -56,3 +56,14 @@ function showAll(command, type){
 function setSpeciality(speciality) {
     document.getElementById("speciality").value = speciality;
 }
+
+
+function setNewPaginationSearch() {
+    var page_number = document.getElementById("page_number").value;
+    window.location.href = "FrontController?command=ShowPaginationCommand&entity=news&page_number="+page_number;  
+}
+
+function setNewEntitySearch() {
+    var entity = document.getElementById("entity").value;
+    window.location.href = "FrontController?command=ShowPaginationCommand&entity="+entity;   
+}

@@ -132,4 +132,12 @@ public class DiscussionsFacade extends AbstractFacade<Discussions> {
         log1.setDate(new Date());
         log.create(log1);
     }
+    
+    public List<Discussions> findByPagination(int page_number) {
+        setLogTrace("DiscussionsFacade::findNewsByPagination");
+        return em.createQuery("SELECT d FROM Discussions d")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
+    }
 }

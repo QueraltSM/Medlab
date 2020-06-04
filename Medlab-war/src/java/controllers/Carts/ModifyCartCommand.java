@@ -146,7 +146,7 @@ public class ModifyCartCommand extends FrontCommand {
             }
             log1.setId(id);
             log1.setDate(new Date());
-            log1.setEjbs("ModifyCartsCommand:process()");
+            log1.setEjbs("ModifyCartCommand:process()");
             log.create(log1);
             cartsDB = (CartFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartFacade!ejbs.CartFacade");
             usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");

@@ -39,7 +39,6 @@ public class AddBooksCommand extends FrontCommand {
             String description = new String(request.getParameter("description").getBytes("ISO8859_1"), "UTF-8");
             String author = new String(request.getParameter("author").getBytes("ISO8859_1"), "UTF-8");
             double price = Double.parseDouble((String)request.getParameter("price"));
-            int stock = Integer.parseInt(((String)request.getParameter("stock")));
             Book books = new Book();
             long id = 0;
             if (!booksDB.findAll().isEmpty()) id = booksDB.findAll().get(booksDB.count()-1).getId()+1;
@@ -50,7 +49,6 @@ public class AddBooksCommand extends FrontCommand {
             books.setDescription(description);
             books.setSpeciality(new Speciality(request.getParameter("speciality")));
             books.setDate(new Date());
-            books.setStock(stock);
             books.setPrice(price);
             booksDB.insertBook(books);
         } catch (UnsupportedEncodingException ex) {

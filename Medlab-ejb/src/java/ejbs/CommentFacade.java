@@ -8,6 +8,7 @@ package ejbs;
 import entities.Book;
 import entities.Comment;
 import entities.Log;
+import entities.News;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -54,6 +55,13 @@ public class CommentFacade extends AbstractFacade<Comment> {
                 .setParameter("idType", id).getResultList();
     }
      
+    public List<Comment> orderbyRecent(long idType) {
+        setLogTrace("CommentFacade::orderbyRecent");
+        return em.createQuery("SELECT c FROM Comment c WHERE c.idType = :idType ORDER BY c.date DESC")
+        .setParameter("idType", idType)
+        .getResultList();
+    }
+    
     public void insertComment(Comment comment) {
         setLogTrace("CommentFacade::insertComment");
         em.createNativeQuery("INSERT INTO COMMENT (id, author, message, id_type, date) VALUES (?,?,?,?,?)")

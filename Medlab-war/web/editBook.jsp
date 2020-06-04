@@ -39,10 +39,6 @@
           <label for="price" class="label-title">Actual price: <%=book.getPrice()%></label>
           <input type="number" step="0.01" class="form-input" id="price" name="price" required />
         </div>
-        <div class="form-group">
-          <label for="stock" class="label-title">Actual stock: <%=book.getStock()%></label>
-          <input type="number" class="form-input" id="stock" name="stock" required/>
-        </div>
         <div class="horizontal-group">
             <div class="form-group left">
             <label class="label-title">Speciality</label>

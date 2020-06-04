@@ -29,7 +29,6 @@ import javax.servlet.http.HttpSession;
 public class ModifyBooksCommand extends FrontCommand {
     private LogFacade log;
     private BookFacade booksDB;
-    private HttpSession session;
     
     private void modifyBook() {
         try {
@@ -37,14 +36,12 @@ public class ModifyBooksCommand extends FrontCommand {
             String description = new String(request.getParameter("description").getBytes("ISO8859_1"), "UTF-8");
             String author = new String(request.getParameter("author").getBytes("ISO8859_1"), "UTF-8");
             double price = Double.parseDouble((String)request.getParameter("price"));
-            int stock = Integer.parseInt(((String)request.getParameter("stock")));
             long id = Long.parseLong((String) request.getParameter("id"));
             Book books = booksDB.find(id);
             books.setTitle(title);
             books.setDescription(description);
             books.setSpeciality(new Speciality(request.getParameter("speciality")));
             books.setDate(new Date());
-            books.setStock(stock);
             books.setPrice(price);
             booksDB.updateBook(books);
         } catch (UnsupportedEncodingException ex) {
@@ -55,7 +52,6 @@ public class ModifyBooksCommand extends FrontCommand {
     @Override
     public void process() {
         try {
-            session = request.getSession();
             log = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
             Log log1 = new Log();
             long id = 1;

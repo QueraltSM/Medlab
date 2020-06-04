@@ -7,6 +7,7 @@ package ejbs;
 
 import entities.Log;
 import entities.Clinicalcases;
+import entities.News;
 import entities.Speciality;
 import entities.Users;
 import java.util.Date;
@@ -135,5 +136,13 @@ public class ClinicalcasesFacade extends AbstractFacade<Clinicalcases> {
         log1.setEjbs(ejbs);
         log1.setDate(new Date());
         log.create(log1);
+    }
+    
+    public List<Clinicalcases> findByPagination(int page_number) {
+        setLogTrace("ClinicalcasesFacade::findNewsByPagination");
+        return em.createQuery("SELECT c FROM Clinicalcases c")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
     }
 }

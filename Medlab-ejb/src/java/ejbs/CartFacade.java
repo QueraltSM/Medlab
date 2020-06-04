@@ -6,7 +6,6 @@
 package ejbs;
 
 import entities.Cart;
-import entities.Cartitems;
 import entities.Log;
 import entities.Users;
 import java.util.Date;

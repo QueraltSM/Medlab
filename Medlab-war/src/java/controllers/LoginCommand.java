@@ -29,13 +29,10 @@ import javax.servlet.http.HttpSession;
  * @author QSM
  */
 public class LoginCommand extends FrontCommand {
-
     private static HttpSession session;
     private UsersFacade usersDB;
     private LogFacade log;
     private LoginstatsFacade login_stats;
-    private CartitemsFacade cartitemsDB;
-    private CartFacade cartsDB;
     
     @SuppressWarnings("unchecked")
     private boolean userExists() {
@@ -78,8 +75,6 @@ public class LoginCommand extends FrontCommand {
             log.create(log1);
             session = request.getSession(true);
             usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
-            cartitemsDB = (CartitemsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartitemsFacade!ejbs.CartitemsFacade");
-            cartsDB = (CartFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartFacade!ejbs.CartFacade");
             if (userExists()) {
                 Loginstats loginstats1 = new Loginstats();
                 long id1 = 0;
@@ -107,5 +102,4 @@ public class LoginCommand extends FrontCommand {
             Logger.getLogger(LoginCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

@@ -40,7 +40,6 @@ public class SignupCommand extends FrontCommand {
             user.setPassword(password);
             user.setType(type);
             usersDB.insertUser(user);
-            
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(SignupCommand.class.getName()).log(Level.SEVERE, null, ex);
         }

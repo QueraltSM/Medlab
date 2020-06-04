@@ -61,6 +61,14 @@ public class NewsFacade extends AbstractFacade<News> {
                 .setParameter("speciality", "%"+speciality.getType()+"%")
                 .getResultList();
     } 
+    
+    public List<News> findByPagination(int page_number) {
+        setLogTrace("NewsFacade::findNewsByPagination");
+        return em.createQuery("SELECT n FROM News n")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
+    }
             
     public void updateVisits(long id) {
         setLogTrace("NewsFacade::updateVisits");

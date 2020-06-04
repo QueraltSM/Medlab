@@ -55,9 +55,7 @@
                             <br><br><p class="case_title">Author</p>
                             <p class = "case_description"><% out.println(book.getAuthor());%></p>
                             <br><br><p class="case_title">Price</p>
-                            <p class = "case_description"><% out.println(book.getPrice());%></p>
-                            <br><br><p class="case_title">Stock</p>
-                            <p class = "case_description"><% out.println(book.getStock());%></p><br><br><br>
+                            <p class = "case_description"><% out.println(book.getPrice());%></p><br><br><br>
                             <p class="statistics">
                                 <%=book.getViews()+1%> views<br><br><br>
                                 <% if (session.getAttribute("usertype").equals("admin")) {%>

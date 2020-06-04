@@ -35,7 +35,7 @@ public class BooksDetailsCommand extends FrontCommand {
 
     private void getAllComments() {
         long id = Long.parseLong((String) request.getParameter("id"));
-        List<Comment> comments = commentsDB.findCommentsbyIdType(id);
+        List<Comment> comments = commentsDB.orderbyRecent(id);
         request.setAttribute("comments", comments);
     }
 

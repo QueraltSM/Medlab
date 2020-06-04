@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Book.findByDescription", query = "SELECT b FROM Book b WHERE b.description = :description"),
     @NamedQuery(name = "Book.findByPrice", query = "SELECT b FROM Book b WHERE b.price = :price"),
     @NamedQuery(name = "Book.findByDate", query = "SELECT b FROM Book b WHERE b.date = :date"),
-    @NamedQuery(name = "Book.findByStock", query = "SELECT b FROM Book b WHERE b.stock = :stock"),
     @NamedQuery(name = "Book.findByViews", query = "SELECT b FROM Book b WHERE b.views = :views"),
     @NamedQuery(name = "Book.findByAuthor", query = "SELECT b FROM Book b WHERE b.author = :author")})
 public class Book implements Serializable {
@@ -67,10 +66,6 @@ public class Book implements Serializable {
     private Date date;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "STOCK")
-    private int stock;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "VIEWS")
     private int views;
     @Basic(optional = false)
@@ -89,13 +84,12 @@ public class Book implements Serializable {
         this.id = id;
     }
 
-    public Book(Long id, String title, String description, double price, Date date, int stock, int views, String author) {
+    public Book(Long id, String title, String description, double price, Date date, int views, String author) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.price = price;
         this.date = date;
-        this.stock = stock;
         this.views = views;
         this.author = author;
     }
@@ -138,14 +132,6 @@ public class Book implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 
     public int getViews() {

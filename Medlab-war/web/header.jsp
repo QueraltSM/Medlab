@@ -112,6 +112,7 @@
                 <a href="addBook.jsp" style="padding-right: 10px;padding-left: 10px;">Register book</a>
                 <a href="FrontController?command=ShowLogCommand" class="menu_action" style="padding-right: 10px;padding-left: 10px;" > View log</a>
                 <a href="FrontController?command=ShowLoginStatsCommand" class="menu_action"  style="padding-right: 10px;padding-left: 10px;"> View stats</a>
+                <a href="FrontController?command=ShowPaginationCommand&entity=news" class="menu_action" style="padding-right: 10px;padding-left: 10px;">Pagination</a>
                 <% } %>
             </div>
         </div>
