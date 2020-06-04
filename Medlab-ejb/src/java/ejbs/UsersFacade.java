@@ -68,4 +68,12 @@ public class UsersFacade extends AbstractFacade<Users> {
         log1.setDate(new Date());
         log.create(log1);
     }
+    
+    public List<Users> findByPagination(int page_number) {
+        setLogTrace("UsersFacade::findByPagination");
+        return em.createQuery("SELECT u FROM Users u")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
+    }
 }

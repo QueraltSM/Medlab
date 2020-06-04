@@ -1,4 +1,6 @@
-<%@page import="entities.Discussions"%>
+
+<%@page import="entities.Book"%>
+<%@page import="entities.Loginstats"%>
 <%@page import="java.util.Vector"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -13,7 +15,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <title>Medlab | Discussions Pagination</title>
+        <title>Medlab | Books Pagination</title>
         <link rel="stylesheet" type="text/css" href="css/menu.css">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/form.css">
@@ -27,7 +29,7 @@
     <body>
         <jsp:include page="header.jsp" />
         <div class ="header">
-            <center><p class="header_title" id="pagination_title">DiscussionsFacade</p>
+            <center><p class="header_title" id="pagination_title">BooksFacade</p>
                 <div>
                     <label for ="page_number">Page: </label>
                     <select onchange='setNewPaginationSearch()' id="page_number" class="form-input">
@@ -46,10 +48,10 @@
                     <select onchange='setNewEntitySearch()' id="entity" class="form-input">
                         <option value="news">News</option> 
                         <option value="cases">Cases</option> 
-                        <option value="discussions" selected>Discussions</option> 
+                        <option value="discussions">Discussions</option> 
                         <option value="researches">Researches</option> 
                         <option value="comments">Comments</option> 
-                        <option value="books">Books</option> 
+                        <option value="books" selected>Books</option> 
                         <option value="carts">Cart</option> 
                         <option value="cartitems">Cartitems</option> 
                         <option value="users">Users</option> 
@@ -67,22 +69,24 @@
                             <th scope="col">ID</th>
                             <th scope="col">Author</th> 
                             <th scope="col">Title</th>
+                            <th scope="col">Price</th>
                             <th scope="col">Date</th>  
                             <th scope="col">Speciality</th>  
                             <th scope="col">Views</th>  
                         </tr>
                     </thead>
                     <tbody>
-                        <% List<Discussions> discussions = (Vector) request.getAttribute("discussions");
-                            for (Discussions entry : discussions) {
+                        <% List<Book> books = (Vector) request.getAttribute("books");
+                            for (Book entry : books) {
                                 Date d = new Date(entry.getDate().getTime());
                                 DateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                 String speciality = entry.getSpeciality().getType().replace("_", " ");
                         %>
                         <tr>
                             <td><%=entry.getId()%></td>
-                            <td><%=entry.getAuthor().getFullname()%></td>
+                            <td><%=entry.getAuthor()%></td>
                             <td><%=entry.getTitle()%></td>
+                            <td><%=entry.getPrice()%></td>
                             <td><%=f.format(d)%></td>
                             <td><%=speciality%></td>
                             <td><%=entry.getViews()%></td>

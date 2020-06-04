@@ -54,4 +54,11 @@ public class CartFacade extends AbstractFacade<Cart> {
         log.create(log1);
     }       
     
+    public List<Cart> findByPagination(int page_number) {
+        setLogTrace("CartFacade::findByPagination");
+        return em.createQuery("SELECT c FROM Cart c")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
+    }
 }

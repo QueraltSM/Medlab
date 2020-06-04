@@ -125,4 +125,12 @@ public class BookFacade extends AbstractFacade<Book> {
         log1.setDate(new Date());
         log.create(log1);
     }
+    
+    public List<Book> findByPagination(int page_number) {
+        setLogTrace("BookFacade::findByPagination");
+        return em.createQuery("SELECT b FROM Book b")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
+    }
 }

@@ -8,7 +8,6 @@ package ejbs;
 import entities.Book;
 import entities.Comment;
 import entities.Log;
-import entities.News;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -100,5 +99,13 @@ public class CommentFacade extends AbstractFacade<Comment> {
         log1.setEjbs(ejbs);
         log1.setDate(new Date());
         log.create(log1);
+    }
+    
+    public List<Comment> findByPagination(int page_number) {
+        setLogTrace("CommentFacade::findByPagination");
+        return em.createQuery("SELECT c FROM Comment c")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
     }
 }

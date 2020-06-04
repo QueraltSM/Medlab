@@ -135,4 +135,12 @@ public class ResearchesFacade extends AbstractFacade<Researches> {
         log1.setDate(new Date());
         log.create(log1);
     }
+    
+    public List<Researches> findByPagination(int page_number) {
+        setLogTrace("ResearchesFacade::findByPagination");
+        return em.createQuery("SELECT r FROM Researches r")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
+    }
 }

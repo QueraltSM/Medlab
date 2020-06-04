@@ -4,14 +4,28 @@
  * and open the template in the editor.
  */
 package controllers;
+import ejbs.BookFacade;
+import ejbs.CartFacade;
+import ejbs.CartitemsFacade;
 import ejbs.ClinicalcasesFacade;
+import ejbs.CommentFacade;
 import ejbs.DiscussionsFacade;
 import ejbs.LogFacade;
 import ejbs.NewsFacade;
+import ejbs.ResearchesFacade;
+import ejbs.SpecialityFacade;
+import ejbs.UsersFacade;
+import entities.Book;
+import entities.Cart;
+import entities.Cartitems;
 import entities.Clinicalcases;
+import entities.Comment;
 import entities.Discussions;
 import entities.Log;
 import entities.News;
+import entities.Researches;
+import entities.Speciality;
+import entities.Users;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +45,98 @@ public class ShowPaginationCommand extends FrontCommand {
     private NewsFacade newsDB;
     private ClinicalcasesFacade casesDB;
     private DiscussionsFacade discussionsDB;
+    private ResearchesFacade researchesDB;
+    private CommentFacade commentsDB;
+    private BookFacade booksDB;
+    private CartFacade cartsDB;
+    private CartitemsFacade cartitemsDB;
+    private UsersFacade usersDB;
+    private SpecialityFacade specialityDB;
 
+    private void showSpecialityFacade(int page_number) {
+        int max_page_number = 0;
+        List<Speciality> specialities = specialityDB.findByPagination(page_number);
+        for (int i = 0; i<specialityDB.findAll().size(); i++) {
+            if (i%5==0) {
+                max_page_number++;
+            }
+        }
+        request.setAttribute("specialities", specialities);
+        request.setAttribute("max_page_number", max_page_number); 
+    }
+    
+    private void showUsersFacade(int page_number) {
+        int max_page_number = 0;
+        List<Users> users = usersDB.findByPagination(page_number);
+        for (int i = 0; i<usersDB.findAll().size(); i++) {
+            if (i%5==0) {
+                max_page_number++;
+            }
+        }
+        request.setAttribute("users", users);
+        request.setAttribute("max_page_number", max_page_number); 
+    }
+
+    private void showCartitemsFacade(int page_number) {
+        int max_page_number = 0;
+        List<Cartitems> cartitems = cartitemsDB.findByPagination(page_number);
+        for (int i = 0; i<cartitemsDB.findAll().size(); i++) {
+            if (i%5==0) {
+                max_page_number++;
+            }
+        }
+        request.setAttribute("cartitems", cartitems);
+        request.setAttribute("max_page_number", max_page_number); 
+    }
+        
+    private void showCartFacade(int page_number) {
+        int max_page_number = 0;
+        List<Cart> carts = cartsDB.findByPagination(page_number);
+        for (int i = 0; i<cartsDB.findAll().size(); i++) {
+            if (i%5==0) {
+                max_page_number++;
+            }
+        }
+        request.setAttribute("carts", carts);
+        request.setAttribute("max_page_number", max_page_number); 
+    }
+        
+    private void showBookFacade(int page_number) {
+        int max_page_number = 0;
+        List<Book> books = booksDB.findByPagination(page_number);
+        for (int i = 0; i<booksDB.findAll().size(); i++) {
+            if (i%5==0) {
+                max_page_number++;
+            }
+        }
+        request.setAttribute("books", books);
+        request.setAttribute("max_page_number", max_page_number); 
+    }
+        
+    private void showCommentFacade(int page_number) {
+        int max_page_number = 0;
+        List<Comment> comments = commentsDB.findByPagination(page_number);
+        for (int i = 0; i<commentsDB.findAll().size(); i++) {
+            if (i%5==0) {
+                max_page_number++;
+            }
+        }
+        request.setAttribute("comments", comments);
+        request.setAttribute("max_page_number", max_page_number); 
+    }
+    
+    private void showResearchesFacade(int page_number) {
+        int max_page_number = 0;
+        List<Researches> researches = researchesDB.findByPagination(page_number);
+        for (int i = 0; i<researchesDB.findAll().size(); i++) {
+            if (i%5==0) {
+                max_page_number++;
+            }
+        }
+        request.setAttribute("researches", researches);
+        request.setAttribute("max_page_number", max_page_number); 
+    }
+    
     private void showDiscussionsFacade(int page_number) {
         int max_page_number = 0;
         List<Discussions> discussions = discussionsDB.findByPagination(page_number);
@@ -84,6 +189,14 @@ public class ShowPaginationCommand extends FrontCommand {
             newsDB = (NewsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/NewsFacade!ejbs.NewsFacade");
             casesDB = (ClinicalcasesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ClinicalcasesFacade!ejbs.ClinicalcasesFacade");
             discussionsDB = (DiscussionsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/DiscussionsFacade!ejbs.DiscussionsFacade");
+            researchesDB = (ResearchesFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/ResearchesFacade!ejbs.ResearchesFacade");
+            commentsDB = (CommentFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CommentFacade!ejbs.CommentFacade");
+            booksDB = (BookFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/BookFacade!ejbs.BookFacade");
+            cartsDB = (CartFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartFacade!ejbs.CartFacade");
+            cartitemsDB = (CartitemsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartitemsFacade!ejbs.CartitemsFacade");
+            usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
+            specialityDB = (SpecialityFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/SpecialityFacade!ejbs.SpecialityFacade");
+            
             int page_number = 1;
             if (request.getParameter("page_number") != null) {
                 page_number = Integer.parseInt(request.getParameter("page_number"));
@@ -98,6 +211,27 @@ public class ShowPaginationCommand extends FrontCommand {
                         break;
                     case "discussions":
                         showDiscussionsFacade(page_number);
+                        break;
+                    case "researches":
+                        showResearchesFacade(page_number);
+                        break;
+                    case "comments":
+                        showCommentFacade(page_number);
+                        break;
+                    case "books":
+                        showBookFacade(page_number);
+                        break;
+                    case "carts":
+                        showCartFacade(page_number);
+                        break;
+                    case "cartitems":
+                        showCartitemsFacade(page_number);
+                        break;
+                    case "users":
+                        showUsersFacade(page_number);
+                        break;
+                    case "specialities":
+                        showSpecialityFacade(page_number);
                         break;
                     default:
                         showNewsFacade(page_number);

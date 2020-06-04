@@ -1,7 +1,4 @@
 <%@page import="entities.Clinicalcases"%>
-<%@page import="entities.News"%>
-<%@page import="entities.Users"%>
-<%@page import="entities.Loginstats"%>
 <%@page import="java.util.Vector"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>

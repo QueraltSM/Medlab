@@ -59,8 +59,9 @@ function setSpeciality(speciality) {
 
 
 function setNewPaginationSearch() {
+    var entity = document.getElementById("entity").value;
     var page_number = document.getElementById("page_number").value;
-    window.location.href = "FrontController?command=ShowPaginationCommand&entity=news&page_number="+page_number;  
+    window.location.href = "FrontController?command=ShowPaginationCommand&entity="+entity+"&page_number="+page_number;  
 }
 
 function setNewEntitySearch() {

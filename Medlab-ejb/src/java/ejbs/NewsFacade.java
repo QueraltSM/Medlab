@@ -63,7 +63,7 @@ public class NewsFacade extends AbstractFacade<News> {
     } 
     
     public List<News> findByPagination(int page_number) {
-        setLogTrace("NewsFacade::findNewsByPagination");
+        setLogTrace("NewsFacade::findByPagination");
         return em.createQuery("SELECT n FROM News n")
                 .setFirstResult((page_number-1)*5)
                 .setMaxResults(5)

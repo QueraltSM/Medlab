@@ -36,13 +36,13 @@ public class CartitemsFacade extends AbstractFacade<Cartitems> {
     }
     
     public List<Cartitems> findCartitemsByCartID(Cart cart) {
-        setLogTrace("CartFacade::findCartitemsByCartID");
+        setLogTrace("CartitemsFacade::findCartitemsByCartID");
         return em.createNamedQuery("Cartitems.findByCartId")
                 .setParameter("cartid", cart).getResultList();
     }  
         
     public List<Cart> findCartByCartID(Cart cart) {
-        setLogTrace("CartFacade::findCartByCartID");
+        setLogTrace("CartitemsFacade::findCartByCartID");
         return em.createNamedQuery("Cartitems.findByCartId")
                 .setParameter("cartid", cart).getResultList();
     }
@@ -59,4 +59,12 @@ public class CartitemsFacade extends AbstractFacade<Cartitems> {
         log1.setDate(new Date());
         log.create(log1);
     } 
+    
+    public List<Cartitems> findByPagination(int page_number) {
+        setLogTrace("CartitemsFacade::findByPagination");
+        return em.createQuery("SELECT c FROM Cartitems c")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
+    }
 }
