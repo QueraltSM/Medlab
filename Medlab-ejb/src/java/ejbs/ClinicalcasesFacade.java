@@ -77,7 +77,8 @@ public class ClinicalcasesFacade extends AbstractFacade<Clinicalcases> {
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Clinicalcases.class);
         root = query.from(Clinicalcases.class);
-        query.select(root).where(cb.equal(root.get("author"), author)); 
+        query.select(root).where(cb.equal(root.get("author"), author))
+                .orderBy(cb.desc(root.get("date")));; 
         return em.createQuery(query).getResultList();
     }
     
@@ -93,8 +94,7 @@ public class ClinicalcasesFacade extends AbstractFacade<Clinicalcases> {
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Clinicalcases.class);
         root = query.from(Clinicalcases.class);
-        query.select(root)
-                .orderBy(cb.desc(root.get("date")));
+        query.select(root).orderBy(cb.desc(root.get("date")));
         return em.createQuery(query).getResultList();
     }
         

@@ -68,7 +68,7 @@
                         </div>
                         <div class="section-row">
                             <div class="post-author">
-                                Posted By <% out.println(research.getAuthor());%>
+                                Posted By <% out.println(research.getAuthor().getFullname().toString());%>
                             </div>
                         </div>
                     </div>

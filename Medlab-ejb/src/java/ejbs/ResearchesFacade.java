@@ -76,7 +76,8 @@ public class ResearchesFacade extends AbstractFacade<Researches> {
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Researches.class);
         root = query.from(Researches.class);
-        query.select(root).where(cb.equal(root.get("author"), author)); 
+        query.select(root).where(cb.equal(root.get("author"), author))
+                .orderBy(cb.desc(root.get("date")));; 
         return em.createQuery(query).getResultList();
     }
     

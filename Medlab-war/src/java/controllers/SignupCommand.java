@@ -1,13 +1,16 @@
 package controllers;
 
+import ejbs.CartFacade;
 import ejbs.LogFacade;
 import ejbs.UsersFacade;
+import entities.Cart;
 import entities.Fullname;
 import entities.Log;
 import entities.Users;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -22,6 +25,7 @@ import javax.servlet.ServletException;
 public class SignupCommand extends FrontCommand {
     private LogFacade log;
     private UsersFacade usersDB;
+    private CartFacade cartsDB;
 
     private void registerUser() {
         try {
@@ -60,6 +64,19 @@ public class SignupCommand extends FrontCommand {
         return exists;
     }
 
+    private void createCart() {
+        long userID = Long.parseLong(String.valueOf(request.getParameter("license_number")));
+        Users user = usersDB.find(userID);
+        List<Cart> carts = cartsDB.findCartByUserID(user);
+        if (carts.isEmpty()) {
+            Cart cart = new Cart();
+            long cartID = cartsDB.findAll().size()+1;
+            cart.setId(cartID);
+            cart.setUserid(user);
+            cartsDB.create(cart);
+        }
+    }
+    
     @Override
     public void process() {
         try {
@@ -74,11 +91,14 @@ public class SignupCommand extends FrontCommand {
             log1.setEjbs("SignupCommand:process()");
             log.create(log1);
             usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
+            cartsDB = (CartFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartFacade!ejbs.CartFacade");
+            
             String destination = "login.jsp";
             if (userExists()) {
                 destination = "signup.jsp";
             } else {
                 registerUser();
+                createCart();
             }
             try {
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher(destination);
