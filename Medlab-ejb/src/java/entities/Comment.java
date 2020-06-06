@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
     @NamedQuery(name = "Comment.findByDate", query = "SELECT c FROM Comment c WHERE c.date = :date"),
     @NamedQuery(name = "Comment.findByMessage", query = "SELECT c FROM Comment c WHERE c.message = :message"),
-    @NamedQuery(name = "Comment.findByIdType", query = "SELECT c FROM Comment c WHERE c.idType = :idType")})
+    @NamedQuery(name = "Comment.findByIdType", query = "SELECT c FROM Comment c WHERE c.idType = :idType"),
+    @NamedQuery(name = "Comment.findByType", query = "SELECT c FROM Comment c WHERE c.type = :type")})
 public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,6 +53,9 @@ public class Comment implements Serializable {
     @NotNull
     @Column(name = "ID_TYPE")
     private long idType;
+    @Size(max = 50)
+    @Column(name = "TYPE")
+    private String type;
     @JoinColumn(name = "AUTHOR", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Users author;
@@ -98,6 +102,14 @@ public class Comment implements Serializable {
 
     public void setIdType(long idType) {
         this.idType = idType;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Users getAuthor() {

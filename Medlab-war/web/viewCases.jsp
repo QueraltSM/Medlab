@@ -66,7 +66,7 @@
                         </div>    
                     </div>
                     <div class="post-author">
-                        <br>Posted By <% out.println(clinical_case.getAuthor().getFullname().toString());%>
+                        <br>Posted By <% out.println(clinical_case.getAuthor().getFullname());%>
                     </div> 
                     <%List<Comment> comments = (List<Comment>) request.getAttribute("comments");%>						
                     <div class="section-row">
@@ -79,7 +79,7 @@
                             <div class="media">
                                 <div class="media-body">
                                     <div class="media-heading">
-                                        <h4><% out.println(comment.getAuthor());%></h4>
+                                        <h4><% out.println(comment.getAuthor().getFullname());%></h4>
                                         <%  d = new Date(comment.getDate().getTime());
                                             f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                         %>
@@ -106,7 +106,7 @@
                                     </div>
                                     <input name="command" type="hidden" value="AddCommentCommand">
                                     <input name="id_type" type="hidden" value=<% out.println(clinical_case.getId());%> />
-                                    <input name="type" type="hidden" value="discussion">
+                                    <input name="type" type="hidden" value="case">
                                     <button class="primary-button">Share</button>
                                 </div>
                             </div>

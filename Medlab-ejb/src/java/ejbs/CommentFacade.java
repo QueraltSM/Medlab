@@ -54,21 +54,23 @@ public class CommentFacade extends AbstractFacade<Comment> {
                 .setParameter("idType", id).getResultList();
     }
      
-    public List<Comment> orderbyRecent(long idType) {
+    public List<Comment> orderbyRecent(long idType, String type) {
         setLogTrace("CommentFacade::orderbyRecent");
-        return em.createQuery("SELECT c FROM Comment c WHERE c.idType = :idType ORDER BY c.date DESC")
+        return em.createQuery("SELECT c FROM Comment c WHERE c.idType = :idType AND c.type = :type ORDER BY c.date DESC")
         .setParameter("idType", idType)
+        .setParameter("type", type)
         .getResultList();
     }
     
     public void insertComment(Comment comment) {
         setLogTrace("CommentFacade::insertComment");
-        em.createNativeQuery("INSERT INTO COMMENT (id, author, message, id_type, date) VALUES (?,?,?,?,?)")
+        em.createNativeQuery("INSERT INTO COMMENT (id, author, message, id_type, date, type) VALUES (?,?,?,?,?,?)")
         .setParameter(1, comment.getId())
         .setParameter(2, comment.getAuthor().getId())
         .setParameter(3, comment.getMessage())
         .setParameter(4, comment.getIdType())
         .setParameter(5, comment.getDate())
+        .setParameter(6, comment.getType())
         .executeUpdate();
     }
     

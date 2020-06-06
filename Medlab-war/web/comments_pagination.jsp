@@ -67,6 +67,7 @@
                             <th scope="col">Author</th> 
                             <th scope="col">Message</th>
                             <th scope="col">Date</th>  
+                            <th scope="col">Type</th> 
                             <th scope="col">ID type</th> 
                         </tr>
                     </thead>
@@ -81,6 +82,7 @@
                             <td><%=entry.getAuthor().getFullname()%></td>
                             <td><%=entry.getMessage()%></td>
                             <td><%=f.format(d)%></td>
+                            <td><%=entry.getType()%></td>
                             <td><%=entry.getIdType()%></td>
                         </tr>
                         <%}%>

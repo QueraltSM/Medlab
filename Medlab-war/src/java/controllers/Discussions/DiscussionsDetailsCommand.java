@@ -35,7 +35,8 @@ public class DiscussionsDetailsCommand extends FrontCommand {
 
     private void getAllComments() {
         long id = Long.parseLong((String) request.getParameter("id"));
-        List<Comment> comments = commentsDB.orderbyRecent(id);
+        String type = request.getParameter("type");
+        List<Comment> comments = commentsDB.orderbyRecent(id, type);
         request.setAttribute("comments", comments);
     }
 

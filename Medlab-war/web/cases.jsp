@@ -67,7 +67,7 @@
                                     <span class="post-date"><br><% out.println(f.format(d));%>
                                         <%=cases.getViews()%> <i class="fa fa-eye" aria-hidden="true"></i></span>
                                 </div>
-                                <h3 class="post-title"><a href="FrontController?command=CasesDetailsCommand&type=cases&id=<% out.println(cases.getId());%>"><% out.println(cases.getTitle());%></a></h3>	
+                                <h3 class="post-title"><a href="FrontController?command=CasesDetailsCommand&type=case&id=<% out.println(cases.getId());%>"><% out.println(cases.getTitle());%></a></h3>	
                             </div>
                         </div>
                     </div>       

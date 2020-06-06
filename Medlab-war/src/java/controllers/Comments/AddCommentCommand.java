@@ -39,11 +39,13 @@ public class AddCommentCommand extends FrontCommand {
             if (!commentsDB.findAll().isEmpty()) id = commentsDB.findAll().get(commentsDB.count()-1).getId()+1;
             comments.setId(id);
             long userID = Long.parseLong(String.valueOf(session.getAttribute("userID")));
+            String type = request.getParameter("type");
             Users user_logged = usersDB.findUserbyID(userID).get(0);
             comments.setAuthor(user_logged);
             comments.setIdType(Long.parseLong((String) request.getParameter("id_type")));
             comments.setMessage(message);
             comments.setDate(new Date());
+            comments.setType(type);
             commentsDB.insertComment(comments);
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(AddCommentCommand.class.getName()).log(Level.SEVERE, null, ex);

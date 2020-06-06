@@ -64,7 +64,7 @@
                         </div>
                         <div class="section-row">
                             <div class="post-author">
-                                Posted By <% out.println(discussion.getAuthor().getFullname().toString());%>
+                                Posted By <% out.println(discussion.getAuthor().getFullname());%>
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                             <div class="media">
                                 <div class="media-body">
                                     <div class="media-heading">
-                                        <h4><% out.println(comment.getAuthor());%></h4>
+                                        <h4><% out.println(comment.getAuthor().getFullname());%></h4>
                                         <%  d = new Date(comment.getDate().getTime());
                                             f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                         %>

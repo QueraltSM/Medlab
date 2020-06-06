@@ -67,7 +67,7 @@
                                     <span class="post-date"><br><% out.println(f.format(d));%>
                                         <%=researches.getViews()%> <i class="fa fa-eye" aria-hidden="true"></i></span>
                                 </div>
-                                <h3 class="post-title"><a href="FrontController?command=ResearchesDetailsCommand&type=researches&id=<% out.println(researches.getId());%>"><% out.println(researches.getTitle());%></a></h3>	
+                                <h3 class="post-title"><a href="FrontController?command=ResearchesDetailsCommand&type=research&id=<% out.println(researches.getId());%>"><% out.println(researches.getTitle());%></a></h3>	
                             </div>
                         </div>
                     </div>       

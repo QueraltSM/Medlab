@@ -71,15 +71,16 @@
                             <div class="media">
                                 <div class="media-body">
                                     <div class="media-heading">
-                                        <h4><% out.println(comment.getAuthor().getFirstname());%></h4>
+                                        <h4><% out.println(comment.getAuthor().getFullname());%></h4>
                                         <%  d = new Date(comment.getDate().getTime());
                                             f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                         %>
                                         <span class="time"><% out.println(f.format(d));%></span>
                                     </div>
-                                    <% if (session.getAttribute("userID").equals(comment.getAuthor().getId())) {%>
+                                    <%
+                                    if (session.getAttribute("userID").equals(comment.getAuthor().getId())) {%>
                                     <form action="FrontController">
-                                        <textarea class="input" name="updated_message" id="updated_message" placeholder="<%=comment.getMessage()%>"></textarea>
+                                        <textarea class="input" name="updated_message" id="updated_message" placeholder="<%=comment.getMessage()%>" required></textarea>
                                         <a href="FrontController?command=DeleteCommentCommand&id=<%=comment.getId()%>"><i class="fa fa-trash"></i>Delete    </a><button type="submit"><i class="fa fa-edit"></i>Modify</button>
                                         <input name="command" type="hidden" value="ModifyCommentCommand">
                                         <input name="id" type="hidden" value='<%=comment.getId()%>' />

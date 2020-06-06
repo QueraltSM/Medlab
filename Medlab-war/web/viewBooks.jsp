@@ -76,7 +76,7 @@
                             <div class="media">
                                 <div class="media-body">
                                     <div class="media-heading">
-                                        <h4><% out.println(comment.getAuthor());%></h4>
+                                        <h4><% out.println(comment.getAuthor().getFullname());%></h4>
                                         <%  d = new Date(comment.getDate().getTime());
                                             f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                         %>
@@ -102,8 +102,8 @@
                                         <textarea class="input" name="message" id="message" placeholder="Message" required></textarea>
                                     </div>
                                     <input name="command" type="hidden" value="AddCommentCommand">
+                                    <input name="type" type="hidden" value="book">
                                     <input name="id_type" type="hidden" value=<% out.println(book.getId());%> />
-                                    <input name="type" type="hidden" value="discussion">
                                     <button class="primary-button">Share</button>
                                 </div>
                             </div>
