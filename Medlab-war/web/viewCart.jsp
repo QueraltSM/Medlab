@@ -55,7 +55,7 @@
                                     
                                     for (Cartitems c : cart) {
                                         Book book = books.find(c.getBookid());
-                                        total_price += book.getPrice();
+                                        total_price += book.getPrice()*c.getQuantity();
                                 %> 
                                 <tr>
                                     <td><%=book.getTitle()%></td>

@@ -28,7 +28,7 @@
     <body>
         <jsp:include page="header.jsp" />
         <div class ="header">
-            <center><p class="header_title" id="pagination_title">CartFacade</p>
+            <center><p class="header_title" id="pagination_title">CartitemsFacade</p>
                 <div>
                     <label for ="page_number">Page: </label>
                     <select onchange='setNewPaginationSearch()' id="page_number" class="form-input">

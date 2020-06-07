@@ -88,8 +88,17 @@
                                         %>
                                         <span class="time"><% out.println(f.format(d));%></span>
                                     </div>
-                                    <p><% out.println(comment.getMessage());%></p>
-
+                                    <%
+                                    if (session.getAttribute("userID").equals(comment.getAuthor().getId())) {%>
+                                    <form action="FrontController">
+                                        <textarea class="input" name="updated_message" id="updated_message" placeholder="<%=comment.getMessage()%>" required></textarea>
+                                        <a href="FrontController?command=DeleteCommentCommand&id=<%=comment.getId()%>"><i class="fa fa-trash"></i>Delete    </a><button type="submit"><i class="fa fa-edit"></i>Modify</button>
+                                        <input name="command" type="hidden" value="ModifyCommentCommand">
+                                        <input name="id" type="hidden" value='<%=comment.getId()%>' />
+                                    </form>
+                                    <%} else {%>
+                                        <p><%=comment.getMessage()%></p>
+                                    <%}%>
                                 </div>
                             </div>
                             <%
