@@ -53,6 +53,8 @@
                         <option value="cartitems">Cartitems</option> 
                         <option value="users">Users</option> 
                         <option value="specialities">Specialities</option> 
+                        <option value="log">Log</option> 
+                        <option value="loginstats">LoginStats</option> 
                     </select>
                 </div>
             </center>

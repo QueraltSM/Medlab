@@ -73,7 +73,6 @@ public class ClinicalcasesFacade extends AbstractFacade<Clinicalcases> {
            
     public List<Clinicalcases> findCasesbyAuthor(Users author) {
         setLogTrace("ClinicalcasesFacade::findCasesbyAuthor");
-        System.out.println("HOLAP = " + author);
         cb = em.getCriteriaBuilder();
         query = cb.createQuery(Clinicalcases.class);
         root = query.from(Clinicalcases.class);

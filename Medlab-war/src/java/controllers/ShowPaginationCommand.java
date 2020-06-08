@@ -11,6 +11,7 @@ import ejbs.ClinicalcasesFacade;
 import ejbs.CommentFacade;
 import ejbs.DiscussionsFacade;
 import ejbs.LogFacade;
+import ejbs.LoginstatsFacade;
 import ejbs.NewsFacade;
 import ejbs.ResearchesFacade;
 import ejbs.SpecialityFacade;
@@ -22,6 +23,7 @@ import entities.Clinicalcases;
 import entities.Comment;
 import entities.Discussions;
 import entities.Log;
+import entities.Loginstats;
 import entities.News;
 import entities.Researches;
 import entities.Speciality;
@@ -52,7 +54,33 @@ public class ShowPaginationCommand extends FrontCommand {
     private CartitemsFacade cartitemsDB;
     private UsersFacade usersDB;
     private SpecialityFacade specialityDB;
+    private LogFacade logDB;
+    private LoginstatsFacade loginstatsDB;
 
+    private void showLogFacade(int page_number) {
+        int max_page_number = 0;
+        List<Log> log_list = logDB.findByPagination(page_number);
+        for (int i = 0; i<logDB.findAll().size(); i++) {
+            if (i%5==0) {
+                max_page_number++;
+            }
+        }
+        request.setAttribute("log", log_list);
+        request.setAttribute("max_page_number", max_page_number); 
+    }
+    
+    private void showLoginstatsFacade(int page_number) {
+        int max_page_number = 0;
+        List<Loginstats> loginstats = loginstatsDB.findByPagination(page_number);
+        for (int i = 0; i<loginstatsDB.findAll().size(); i++) {
+            if (i%5==0) {
+                max_page_number++;
+            }
+        }
+        request.setAttribute("loginstats", loginstats);
+        request.setAttribute("max_page_number", max_page_number); 
+    }
+        
     private void showSpecialityFacade(int page_number) {
         int max_page_number = 0;
         List<Speciality> specialities = specialityDB.findByPagination(page_number);
@@ -196,6 +224,8 @@ public class ShowPaginationCommand extends FrontCommand {
             cartitemsDB = (CartitemsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/CartitemsFacade!ejbs.CartitemsFacade");
             usersDB = (UsersFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/UsersFacade!ejbs.UsersFacade");
             specialityDB = (SpecialityFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/SpecialityFacade!ejbs.SpecialityFacade");
+            logDB = (LogFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LogFacade!ejbs.LogFacade");
+            loginstatsDB = (LoginstatsFacade) InitialContext.doLookup("java:global/Medlab/Medlab-ejb/LoginstatsFacade!ejbs.LoginstatsFacade");
             
             int page_number = 1;
             if (request.getParameter("page_number") != null) {
@@ -232,6 +262,12 @@ public class ShowPaginationCommand extends FrontCommand {
                         break;
                     case "specialities":
                         showSpecialityFacade(page_number);
+                        break;
+                    case "log":
+                        showLogFacade(page_number);
+                        break;
+                    case "loginstats":
+                        showLoginstatsFacade(page_number);
                         break;
                     default:
                         showNewsFacade(page_number);

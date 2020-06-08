@@ -6,6 +6,7 @@
 package ejbs;
 
 import entities.Log;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,5 +27,12 @@ public class LogFacade extends AbstractFacade<Log> {
 
     public LogFacade() {
         super(Log.class);
+    }
+    
+    public List<Log> findByPagination(int page_number) {
+        return em.createQuery("SELECT l FROM Log l")
+                .setFirstResult((page_number-1)*5)
+                .setMaxResults(5)
+                .getResultList();
     }
 }

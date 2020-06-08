@@ -1,5 +1,4 @@
-<%@page import="entities.Researches"%>
-<%@page import="entities.Loginstats"%>
+<%@page import="entities.Log"%>
 <%@page import="java.util.Vector"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -14,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <title>Medlab | Researches Pagination</title>
+        <title>Medlab | Log Pagination</title>
         <link rel="stylesheet" type="text/css" href="css/menu.css">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/form.css">
@@ -28,7 +27,7 @@
     <body>
         <jsp:include page="header.jsp" />
         <div class ="header">
-            <center><p class="header_title" id="pagination_title">ResearchesFacade</p>
+            <center><p class="header_title" id="pagination_title">LogFacade</p>
                 <div>
                     <label for ="page_number">Page: </label>
                     <select onchange='setNewPaginationSearch()' id="page_number" class="form-input">
@@ -48,14 +47,14 @@
                         <option value="news">News</option> 
                         <option value="cases">Cases</option> 
                         <option value="discussions">Discussions</option> 
-                        <option value="researches" selected>Researches</option> 
+                        <option value="researches">Researches</option> 
                         <option value="comments">Comments</option> 
                         <option value="books">Books</option> 
                         <option value="carts">Cart</option> 
                         <option value="cartitems">Cartitems</option> 
                         <option value="users">Users</option> 
                         <option value="specialities">Specialities</option> 
-                        <option value="log">Log</option> 
+                        <option value="log" selected>Log</option> 
                         <option value="loginstats">LoginStats</option> 
                     </select>
                 </div>
@@ -67,28 +66,19 @@
                 <table style="width:70%;">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Author</th> 
-                            <th scope="col">Title</th>
-                            <th scope="col">Date</th>  
-                            <th scope="col">Speciality</th>  
-                            <th scope="col">Views</th>  
+                            <th scope="col">Date</th>
+                            <th scope="col">EJBS</th> 
                         </tr>
                     </thead>
                     <tbody>
-                        <% List<Researches> researches = (Vector) request.getAttribute("researches");
-                            for (Researches entry : researches) {
+                        <% List<Log> log = (Vector) request.getAttribute("log");
+                            for (Log entry : log) {
                                 Date d = new Date(entry.getDate().getTime());
                                 DateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                                String speciality = entry.getSpeciality().getType().replace("_", " ");
                         %>
                         <tr>
-                            <td><%=entry.getId()%></td>
-                            <td><%=entry.getAuthor().getFullname()%></td>
-                            <td><%=entry.getTitle()%></td>
                             <td><%=f.format(d)%></td>
-                            <td><%=speciality%></td>
-                            <td><%=entry.getViews()%></td>
+                            <td><%=entry.getEjbs()%></td>
                         </tr>
                         <%}%>
                     </tbody>
